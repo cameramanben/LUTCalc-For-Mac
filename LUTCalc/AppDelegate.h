@@ -7,9 +7,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <WebKit/WebKit.h>
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
++ (BOOL)isSelectorExcludedFromWebScript:(SEL)selector;
++ (BOOL)isKeyExcludedFromWebScript:(const char *)property;
++ (NSString *) webScriptNameForSelector:(SEL)sel;
+
+- (NSString *) appOS;
+- (BOOL) saveLUTToFile:(NSString*) lutContent withFileName:(NSString*) fileName withFileExtension:(NSString*) fileExtension;
 
 @end
 

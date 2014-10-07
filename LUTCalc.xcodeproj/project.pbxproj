@@ -7,24 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B573D5BF19E05FDF0015BBBC /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B573D5BE19E05FDF0015BBBC /* WebKit.framework */; };
+		B573D5EF19E0A8940015BBBC /* web in Resources */ = {isa = PBXBuildFile; fileRef = B573D5EE19E0A8940015BBBC /* web */; };
 		B5A51F1C19DFEB8000517D5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A51F1B19DFEB8000517D5E /* main.m */; };
 		B5A51F1F19DFEB8000517D5E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A51F1E19DFEB8000517D5E /* AppDelegate.m */; };
 		B5A51F2119DFEB8000517D5E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5A51F2019DFEB8000517D5E /* Images.xcassets */; };
 		B5A51F2419DFEB8000517D5E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5A51F2219DFEB8000517D5E /* MainMenu.xib */; };
-		B5A51F3019DFEB8000517D5E /* LUTCalcTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A51F2F19DFEB8000517D5E /* LUTCalcTests.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		B5A51F2A19DFEB8000517D5E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B5A51F0E19DFEB8000517D5E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B5A51F1519DFEB8000517D5E;
-			remoteInfo = LUTCalc;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
+		B573D5BE19E05FDF0015BBBC /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		B573D5EE19E0A8940015BBBC /* web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = web; sourceTree = "<group>"; };
 		B5A51F1619DFEB8000517D5E /* LUTCalc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LUTCalc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5A51F1A19DFEB8000517D5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5A51F1B19DFEB8000517D5E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -32,9 +25,7 @@
 		B5A51F1E19DFEB8000517D5E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		B5A51F2019DFEB8000517D5E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B5A51F2319DFEB8000517D5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		B5A51F2919DFEB8000517D5E /* LUTCalcTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LUTCalcTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B5A51F2E19DFEB8000517D5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B5A51F2F19DFEB8000517D5E /* LUTCalcTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUTCalcTests.m; sourceTree = "<group>"; };
+		B5A51F3919DFEBD600517D5E /* LUTCalc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = LUTCalc.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,13 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B5A51F2619DFEB8000517D5E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				B573D5BF19E05FDF0015BBBC /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,8 +43,9 @@
 		B5A51F0D19DFEB8000517D5E = {
 			isa = PBXGroup;
 			children = (
+				B573D5EE19E0A8940015BBBC /* web */,
+				B573D5BE19E05FDF0015BBBC /* WebKit.framework */,
 				B5A51F1819DFEB8000517D5E /* LUTCalc */,
-				B5A51F2C19DFEB8000517D5E /* LUTCalcTests */,
 				B5A51F1719DFEB8000517D5E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,7 +54,6 @@
 			isa = PBXGroup;
 			children = (
 				B5A51F1619DFEB8000517D5E /* LUTCalc.app */,
-				B5A51F2919DFEB8000517D5E /* LUTCalcTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -76,6 +61,7 @@
 		B5A51F1819DFEB8000517D5E /* LUTCalc */ = {
 			isa = PBXGroup;
 			children = (
+				B5A51F3919DFEBD600517D5E /* LUTCalc.entitlements */,
 				B5A51F1D19DFEB8000517D5E /* AppDelegate.h */,
 				B5A51F1E19DFEB8000517D5E /* AppDelegate.m */,
 				B5A51F2019DFEB8000517D5E /* Images.xcassets */,
@@ -90,23 +76,6 @@
 			children = (
 				B5A51F1A19DFEB8000517D5E /* Info.plist */,
 				B5A51F1B19DFEB8000517D5E /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		B5A51F2C19DFEB8000517D5E /* LUTCalcTests */ = {
-			isa = PBXGroup;
-			children = (
-				B5A51F2F19DFEB8000517D5E /* LUTCalcTests.m */,
-				B5A51F2D19DFEB8000517D5E /* Supporting Files */,
-			);
-			path = LUTCalcTests;
-			sourceTree = "<group>";
-		};
-		B5A51F2D19DFEB8000517D5E /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				B5A51F2E19DFEB8000517D5E /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -131,24 +100,6 @@
 			productReference = B5A51F1619DFEB8000517D5E /* LUTCalc.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B5A51F2819DFEB8000517D5E /* LUTCalcTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B5A51F3619DFEB8000517D5E /* Build configuration list for PBXNativeTarget "LUTCalcTests" */;
-			buildPhases = (
-				B5A51F2519DFEB8000517D5E /* Sources */,
-				B5A51F2619DFEB8000517D5E /* Frameworks */,
-				B5A51F2719DFEB8000517D5E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B5A51F2B19DFEB8000517D5E /* PBXTargetDependency */,
-			);
-			name = LUTCalcTests;
-			productName = LUTCalcTests;
-			productReference = B5A51F2919DFEB8000517D5E /* LUTCalcTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -160,10 +111,11 @@
 				TargetAttributes = {
 					B5A51F1519DFEB8000517D5E = {
 						CreatedOnToolsVersion = 6.0.1;
-					};
-					B5A51F2819DFEB8000517D5E = {
-						CreatedOnToolsVersion = 6.0.1;
-						TestTargetID = B5A51F1519DFEB8000517D5E;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -181,7 +133,6 @@
 			projectRoot = "";
 			targets = (
 				B5A51F1519DFEB8000517D5E /* LUTCalc */,
-				B5A51F2819DFEB8000517D5E /* LUTCalcTests */,
 			);
 		};
 /* End PBXProject section */
@@ -191,15 +142,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B573D5EF19E0A8940015BBBC /* web in Resources */,
 				B5A51F2119DFEB8000517D5E /* Images.xcassets in Resources */,
 				B5A51F2419DFEB8000517D5E /* MainMenu.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B5A51F2719DFEB8000517D5E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,23 +160,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B5A51F2519DFEB8000517D5E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B5A51F3019DFEB8000517D5E /* LUTCalcTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		B5A51F2B19DFEB8000517D5E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B5A51F1519DFEB8000517D5E /* LUTCalc */;
-			targetProxy = B5A51F2A19DFEB8000517D5E /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		B5A51F2219DFEB8000517D5E /* MainMenu.xib */ = {
@@ -325,6 +254,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LUTCalc/LUTCalc.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = LUTCalc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -336,46 +266,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LUTCalc/LUTCalc.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = LUTCalc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		B5A51F3719DFEB8000517D5E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = LUTCalcTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LUTCalc.app/Contents/MacOS/LUTCalc";
-			};
-			name = Debug;
-		};
-		B5A51F3819DFEB8000517D5E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = LUTCalcTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LUTCalc.app/Contents/MacOS/LUTCalc";
 			};
 			name = Release;
 		};
@@ -398,14 +293,7 @@
 				B5A51F3519DFEB8000517D5E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-		};
-		B5A51F3619DFEB8000517D5E /* Build configuration list for PBXNativeTarget "LUTCalcTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B5A51F3719DFEB8000517D5E /* Debug */,
-				B5A51F3819DFEB8000517D5E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
