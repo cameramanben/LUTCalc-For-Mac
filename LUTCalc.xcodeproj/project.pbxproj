@@ -258,6 +258,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = LUTCalc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
