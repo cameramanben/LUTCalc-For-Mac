@@ -118,7 +118,6 @@
                        toDestination:(NSString *)destination
                           fromObject:(NSInteger) parentIdx
                              goingTo:(NSInteger) nextIdx; {
-    NSLog(@"%ld - %ld",(long)parentIdx,(long)nextIdx);
     NSOpenPanel* panel = [NSOpenPanel openPanel];
     NSArray* fileExtensionsLower = [[fileExtensionsString lowercaseString] componentsSeparatedByString: @","];
     NSArray* fileExtensionsUpper = [[fileExtensionsString uppercaseString] componentsSeparatedByString: @","];
@@ -144,7 +143,6 @@
                 [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
                 NSLog(@"File opening failed - %@",[error localizedFailureReason]);
             } else {
-                NSLog(@"%@",destination);
                 NSArray *args = [NSArray arrayWithObjects:
                                  fileExt,
                                  fileContents,
@@ -152,10 +150,8 @@
                                  [NSString stringWithFormat: @"%ld", (long)parentIdx],
                                  [NSString stringWithFormat: @"%ld", (long)nextIdx],
                                  nil];
-//                NSString* jsFunction = @"loadLUTFromApp();";
                 id appWindowScript = [[self webView] windowScriptObject];
                 [appWindowScript  callWebScriptMethod:@"loadLUTFromApp" withArguments:args ];
-//                [appWindowScript evaluateWebScript:@"loadLUTFromApp('so far so good');"];
            }
         }
     }];
