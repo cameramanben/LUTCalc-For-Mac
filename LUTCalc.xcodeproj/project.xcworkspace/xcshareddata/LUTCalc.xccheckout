@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>0F475F52-6B52-4981-8CEE-750D291A6290</string>
+	<key>IDESourceControlProjectName</key>
+	<string>LUTCalc</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>19078E0FD734ABD636190B4806D0B92FDBFB0DCD</key>
+		<string>https://github.com/cameramanben/LUTCalc.git</string>
+		<key>661EE051397496F5983038437957D695B0E29BBA</key>
+		<string>https://github.com/cameramanben/LUTCalc-For-Mac.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>LUTCalc.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>19078E0FD734ABD636190B4806D0B92FDBFB0DCD</key>
+		<string>../..web</string>
+		<key>661EE051397496F5983038437957D695B0E29BBA</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/cameramanben/LUTCalc-For-Mac.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>661EE051397496F5983038437957D695B0E29BBA</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>661EE051397496F5983038437957D695B0E29BBA</string>
+			<key>IDESourceControlWCCName</key>
+			<string>LUTCalc</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>19078E0FD734ABD636190B4806D0B92FDBFB0DCD</string>
+			<key>IDESourceControlWCCName</key>
+			<string>LUTCalcweb</string>
+		</dict>
+	</array>
+</dict>
+</plist>
