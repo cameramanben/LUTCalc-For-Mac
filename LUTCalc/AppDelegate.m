@@ -35,6 +35,7 @@
     [win setValue:self forKey:@"lutCalcApp"];
     [win setValue:self forKey:@"appOS"];
     [win setValue:self forKey:@"saveLUT"];
+    [win setValue:self forKey:@"saveBIN"];
     [win setValue:self forKey:@"loadLUT"];
 }
 
@@ -51,6 +52,8 @@
 + (BOOL)isSelectorExcludedFromWebScript:(SEL)selector {
     NSLog(@"%@ received %@ for '%@'", self, NSStringFromSelector(_cmd), NSStringFromSelector(selector));
     if (selector == @selector(saveLUTToFile:withFileName:withFileExtension:)) {
+        return NO;
+    } else if (selector == @selector(saveBINToFile:withFileName:withFileExtension:)) {
         return NO;
     } else if (selector == @selector(loadLUTWithExtensions:toDestination:fromObject:goingTo:)) {
         return NO;
@@ -72,6 +75,8 @@
     NSLog(@"%@ received %@ with sel='%@'", self, NSStringFromSelector(_cmd), NSStringFromSelector(sel));
     if (sel == @selector(saveLUTToFile:withFileName:withFileExtension:)) {
         return @"saveLUT";
+    } else if (sel == @selector(saveBINToFile:withFileName:withFileExtension:)) {
+        return @"saveBIN";
     } else if (sel == @selector(loadLUTWithExtensions:toDestination:fromObject:goingTo:)) {
         return @"loadLUT";
     } else if (sel == @selector(appOS)) {
@@ -101,6 +106,34 @@
                                      atomically:YES
                                        encoding:NSUTF8StringEncoding
                                             error:&error];
+            if (! savedOK) {
+                NSLog(@"File saving failed - %@",[error localizedFailureReason]);
+            } else {
+                NSUserNotification *userNotification = [[NSUserNotification alloc] init];
+                userNotification.title = [NSString stringWithFormat: @"%@ Cube LUT", fileName];
+                userNotification.subtitle = @"Saved Successfully";
+                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
+                succeeded = YES;
+            }
+        }
+    }];
+    return succeeded;
+}
+- (BOOL) saveBINToFile:(NSData *)lutContent withFileName:(NSString *)fileName withFileExtension:(NSString*) fileExtension; {
+    __block BOOL succeeded = NO;
+    NSString* newName = [[fileName stringByDeletingPathExtension]
+                         stringByAppendingPathExtension:fileExtension];
+    // Set the default name for the file and show the panel.
+    NSSavePanel* panel = [NSSavePanel savePanel];
+    [panel setNameFieldStringValue:newName];
+    [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
+        if (result == NSFileHandlingPanelOKButton)
+        {
+            NSURL*  fileURL = [panel URL];
+            NSError* error;
+            BOOL savedOK = [lutContent writeToURL:fileURL
+                                          options:NSDataWritingAtomic
+                                             error:&error];
             if (! savedOK) {
                 NSLog(@"File saving failed - %@",[error localizedFailureReason]);
             } else {

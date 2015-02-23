@@ -17,6 +17,7 @@
 
 - (NSString *) appOS;
 - (BOOL) saveLUTToFile:(NSString*) lutContent withFileName:(NSString*) fileName withFileExtension:(NSString*) fileExtension;
+- (BOOL) saveBINToFile:(NSData*) lutContent withFileName:(NSString*) fileName withFileExtension:(NSString*) fileExtension;
 - (void) loadLUTWithExtensions:(NSString*) fileExtensions
                        toDestination:(NSString*)destination
                           fromObject:(NSInteger) parenIdx

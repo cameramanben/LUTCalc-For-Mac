@@ -12,6 +12,10 @@
 	<dict>
 		<key>19078E0FD734ABD636190B4806D0B92FDBFB0DCD</key>
 		<string>https://github.com/cameramanben/LUTCalc.git</string>
+		<key>2FCEFADADA8C55D7F8A69D94EC4E02E3924E41AC</key>
+		<string>https://github.com/eligrey/Blob.js.git</string>
+		<key>52C8850E502B2C55A1218AB6966137B5AA8B0AEA</key>
+		<string>https://github.com/eligrey/FileSaver.js.git</string>
 		<key>661EE051397496F5983038437957D695B0E29BBA</key>
 		<string>https://github.com/cameramanben/LUTCalc-For-Mac.git</string>
 	</dict>
@@ -21,6 +25,10 @@
 	<dict>
 		<key>19078E0FD734ABD636190B4806D0B92FDBFB0DCD</key>
 		<string>../..web</string>
+		<key>2FCEFADADA8C55D7F8A69D94EC4E02E3924E41AC</key>
+		<string>../../web/Blob</string>
+		<key>52C8850E502B2C55A1218AB6966137B5AA8B0AEA</key>
+		<string>../../web/FileSaver</string>
 		<key>661EE051397496F5983038437957D695B0E29BBA</key>
 		<string>../..</string>
 	</dict>
@@ -32,6 +40,22 @@
 	<string>661EE051397496F5983038437957D695B0E29BBA</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2FCEFADADA8C55D7F8A69D94EC4E02E3924E41AC</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Blob</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>52C8850E502B2C55A1218AB6966137B5AA8B0AEA</string>
+			<key>IDESourceControlWCCName</key>
+			<string>FileSaver</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
