@@ -17,11 +17,17 @@
 
 - (NSString *) appOS;
 - (BOOL) saveLUTToFile:(NSString*) lutContent withFileName:(NSString*) fileName withFileExtension:(NSString*) fileExtension;
-- (BOOL) saveBINToFile:(NSData*) lutContent withFileName:(NSString*) fileName withFileExtension:(NSString*) fileExtension;
+- (BOOL) saveBINToFile:(NSArray*) lutContent withFileName:(NSString*) fileName withFileExtension:(NSString*) fileExtension;
 - (void) loadLUTWithExtensions:(NSString*) fileExtensions
-                       toDestination:(NSString*)destination
-                          fromObject:(NSInteger) parenIdx
-                             goingTo:(NSInteger) next;
+                 toDestination:(NSString*)destination
+                    fromObject:(NSInteger) parenIdx
+                       goingTo:(NSInteger) next;
+- (void) loadImgWithExtensions:(NSString*) fileExtensions
+                 toDestination:(NSString*)destination
+                    fromObject:(NSInteger) parenIdx
+                       goingTo:(NSInteger) next;
+- (NSArray *) fileToByteArray: (NSData *) fileData;
+- (void) logOSXWithText:(NSString*) logMessage;
 
 @end
 

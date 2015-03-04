@@ -37,6 +37,8 @@
     [win setValue:self forKey:@"saveLUT"];
     [win setValue:self forKey:@"saveBIN"];
     [win setValue:self forKey:@"loadLUT"];
+    [win setValue:self forKey:@"loadImg"];
+    [win setValue:self forKey:@"logOSX"];
 }
 
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification{
@@ -56,6 +58,10 @@
     } else if (selector == @selector(saveBINToFile:withFileName:withFileExtension:)) {
         return NO;
     } else if (selector == @selector(loadLUTWithExtensions:toDestination:fromObject:goingTo:)) {
+        return NO;
+    } else if (selector == @selector(loadImgWithExtensions:toDestination:fromObject:goingTo:)) {
+        return NO;
+    } else if (selector == @selector(logOSXWithText:)) {
         return NO;
     } else if (selector == @selector(appOS)) {
         return NO;
@@ -79,6 +85,10 @@
         return @"saveBIN";
     } else if (sel == @selector(loadLUTWithExtensions:toDestination:fromObject:goingTo:)) {
         return @"loadLUT";
+    } else if (sel == @selector(loadImgWithExtensions:toDestination:fromObject:goingTo:)) {
+        return @"loadImg";
+    } else if (sel == @selector(logOSXWithText:)) {
+        return @"logOSX";
     } else if (sel == @selector(appOS)) {
         return @"appOS";
     } else {
@@ -119,7 +129,7 @@
     }];
     return succeeded;
 }
-- (BOOL) saveBINToFile:(NSData *)lutContent withFileName:(NSString *)fileName withFileExtension:(NSString*) fileExtension; {
+- (BOOL) saveBINToFile:(NSArray *)lutContent withFileName:(NSString *)fileName withFileExtension:(NSString*) fileExtension; {
     __block BOOL succeeded = NO;
     NSString* newName = [[fileName stringByDeletingPathExtension]
                          stringByAppendingPathExtension:fileExtension];
@@ -132,8 +142,7 @@
             NSURL*  fileURL = [panel URL];
             NSError* error;
             BOOL savedOK = [lutContent writeToURL:fileURL
-                                          options:NSDataWritingAtomic
-                                             error:&error];
+                                          atomically:NO];
             if (! savedOK) {
                 NSLog(@"File saving failed - %@",[error localizedFailureReason]);
             } else {
@@ -163,13 +172,77 @@
         if (result == NSFileHandlingPanelOKButton)
         {
             NSURL* fileURL = [[panel URLs]objectAtIndex:0];
+            NSString* fileName = [[fileURL lastPathComponent] stringByDeletingPathExtension];
             NSString* fileExt = [fileURL pathExtension];
             NSError* error;
-            NSString* fileContents = [[NSString alloc]
-                                      initWithContentsOfURL:fileURL
-                                      encoding:NSUTF8StringEncoding
-                                      error:&error];
-            if (fileContents == nil) {
+            if ([fileExt isEqualToString:@"labin"]) {
+                NSData* fileContents = [[NSData alloc] initWithContentsOfURL:fileURL];
+                if (fileContents == nil) {
+                    NSUserNotification *userNotification = [[NSUserNotification alloc] init];
+                    userNotification.title = [fileURL lastPathComponent];
+                    userNotification.subtitle = @"Failed to load";
+                    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
+                    NSLog(@"File opening failed - %@",[error localizedFailureReason]);
+                } else {
+                    NSArray *args = [NSArray arrayWithObjects:
+                                     fileName,
+                                     fileExt,
+                                     [self fileToByteArray:fileContents],
+                                     destination,
+                                     [NSString stringWithFormat: @"%ld", (long)parentIdx],
+                                     [NSString stringWithFormat: @"%ld", (long)nextIdx],
+                                     nil];
+                    id appWindowScript = [[self webView] windowScriptObject];
+                    [appWindowScript  callWebScriptMethod:@"loadLUTFromApp" withArguments:args ];
+                }
+            } else {
+                NSString* fileContents = [[NSString alloc]
+                                          initWithContentsOfURL:fileURL
+                                          encoding:NSUTF8StringEncoding
+                                          error:&error];
+                if (fileContents == nil) {
+                    NSUserNotification *userNotification = [[NSUserNotification alloc] init];
+                    userNotification.title = [fileURL lastPathComponent];
+                    userNotification.subtitle = @"Failed to load";
+                    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
+                    NSLog(@"File opening failed - %@",[error localizedFailureReason]);
+                } else {
+                    NSArray *args = [NSArray arrayWithObjects:
+                                     fileName,
+                                     fileExt,
+                                     fileContents,
+                                     destination,
+                                     [NSString stringWithFormat: @"%ld", (long)parentIdx],
+                                     [NSString stringWithFormat: @"%ld", (long)nextIdx],
+                                     nil];
+                    id appWindowScript = [[self webView] windowScriptObject];
+                    [appWindowScript  callWebScriptMethod:@"loadLUTFromApp" withArguments:args ];
+                }
+           }
+        }
+    }];
+}
+- (void) loadImgWithExtensions:(NSString *)fileExtensionsString
+                 toDestination:(NSString *)destination
+                    fromObject:(NSInteger) parentIdx
+                       goingTo:(NSInteger) nextIdx; {
+    NSOpenPanel* panel = [NSOpenPanel openPanel];
+    NSArray* fileExtensionsLower = [[fileExtensionsString lowercaseString] componentsSeparatedByString: @","];
+    NSArray* fileExtensionsUpper = [[fileExtensionsString uppercaseString] componentsSeparatedByString: @","];
+    NSArray* fileExtensions = [fileExtensionsLower arrayByAddingObjectsFromArray:fileExtensionsUpper];
+    [panel setShowsHiddenFiles:NO];
+    [panel setCanCreateDirectories:YES];
+    [panel setAllowsMultipleSelection:NO];
+    [panel setAllowedFileTypes:fileExtensions];
+    [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
+        if (result == NSFileHandlingPanelOKButton)
+        {
+            NSURL* fileURL = [[panel URLs]objectAtIndex:0];
+            NSString* fileExt = [fileURL pathExtension];
+            NSError* error;
+            NSData* fileData = [[NSData alloc] initWithContentsOfURL:fileURL];
+            
+            if (fileData == nil) {
                 NSUserNotification *userNotification = [[NSUserNotification alloc] init];
                 userNotification.title = [fileURL lastPathComponent];
                 userNotification.subtitle = @"Failed to load";
@@ -177,18 +250,31 @@
                 NSLog(@"File opening failed - %@",[error localizedFailureReason]);
             } else {
                 NSArray *args = [NSArray arrayWithObjects:
-                                 fileExt,
-                                 fileContents,
-                                 destination,
-                                 [NSString stringWithFormat: @"%ld", (long)parentIdx],
-                                 [NSString stringWithFormat: @"%ld", (long)nextIdx],
-                                 nil];
+                                    fileExt,
+                                    [self fileToByteArray:fileData],
+                                    destination,
+                                    [NSString stringWithFormat: @"%ld", (long)parentIdx],
+                                    [NSString stringWithFormat: @"%ld", (long)nextIdx],
+                                    nil];
                 id appWindowScript = [[self webView] windowScriptObject];
-                [appWindowScript  callWebScriptMethod:@"loadLUTFromApp" withArguments:args ];
-           }
+                [appWindowScript  callWebScriptMethod:@"loadImgFromApp" withArguments:args ];
+            }
         }
     }];
 }
-
+- (NSArray *) fileToByteArray: (NSData *) fileData; {
+    NSUInteger len = [fileData length];
+    Byte *byteData = (Byte*)malloc(len);
+    memcpy(byteData, [fileData bytes], len);
+    NSMutableArray *output = [[NSMutableArray alloc] init];
+    int j = 0;
+    for (j=0; j<len; j++) {
+        [output addObject:@(byteData[j])];
+    }
+    return output;
+}
+- (void) logOSXWithText:(NSString *) logMessage; {
+    NSLog(@"%@",logMessage);
+}
 
 @end
