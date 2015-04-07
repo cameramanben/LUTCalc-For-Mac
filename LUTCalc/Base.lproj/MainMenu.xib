@@ -101,15 +101,15 @@
         <window title="LUTCalc" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="30" y="162" width="1390" height="720"/>
+            <rect key="contentRect" x="20" y="152" width="1390" height="710"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
-            <value key="minSize" type="size" width="1390" height="720"/>
+            <value key="minSize" type="size" width="1390" height="710"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="1390" height="720"/>
+                <rect key="frame" x="0.0" y="0.0" width="1390" height="710"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <webView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nHB-ZO-jGG">
-                        <rect key="frame" x="0.0" y="120" width="1060" height="600"/>
+                        <rect key="frame" x="0.0" y="110" width="1060" height="600"/>
                         <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12">
                             <nil key="identifier"/>
                         </webPreferences>
