@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>benturley.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>net.lutcalc.$(PRODUCT_NAME:rfc1034identifier)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.9</string>
+	<string>1.9RC7</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>RC5</string>
+	<string>1</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.video</string>
 	<key>LSMinimumSystemVersion</key>
