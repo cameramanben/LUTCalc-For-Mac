@@ -16,8 +16,12 @@
 + (NSString *) webScriptNameForSelector:(SEL)sel;
 
 - (NSString *) appOS;
-- (BOOL) saveLUTToFile:(NSString*) lutContent withFileName:(NSString*) fileName withFileExtension:(NSString*) fileExtension;
-- (BOOL) saveBINToFile:(NSArray*) lutContent withFileName:(NSString*) fileName withFileExtension:(NSString*) fileExtension;
+- (BOOL) saveLUTToFile:(NSString*) lutContent
+          withFileName:(NSString*) fileName
+     withFileExtension:(NSString*) fileExtension;
+- (BOOL) saveBINToFile:(NSArray*) lutContent
+          withFileName:(NSString*) fileName
+     withFileExtension:(NSString*) fileExtension;
 - (void) loadLUTWithExtensions:(NSString*) fileExtensions
                  toDestination:(NSString*)destination
                     fromObject:(NSInteger) parenIdx
@@ -27,6 +31,7 @@
                     fromObject:(NSInteger) parenIdx
                        goingTo:(NSInteger) next;
 - (NSArray *) fileToByteArray: (NSData *) fileData;
+- (NSData *) byteArrayToFile: (NSArray *) arrayData;
 - (void) logOSXWithText:(NSString*) logMessage;
 
 @end

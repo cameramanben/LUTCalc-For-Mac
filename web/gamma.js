@@ -21,6 +21,10 @@ function LUTGamma() {
 	this.inL = false;
 	this.outL = true;
 	this.clip = false;
+	
+	this.sIn = false;
+	this.sMin = 0;
+	this.sMax = 1;
 
 	this.bClip = 0;
 	this.mClip = 67025937;
@@ -70,17 +74,21 @@ LUTGamma.prototype.gammaList = function() {
 		'BMD Film', [ 0.235007442, -0.021824371, 0.367608584, 3.806255082, 10, 0.424864581, 0.123774409, 0.114884702, 0.005175 ]));
 	this.gammas.push(new LUTGammaLog(
 		'BMD Film4k', [ 0.335139188, -0.031122728, 0.582240631, 2.733951639, 10, 0.477563161, 0.218018711, 0.10830634, 0.005175 ]));
+//	this.gammas.push(new LUTGammaLog(
+//		'RedLog', [ 0.054934837, -0.003437557, 0.427733972, 3.334384833, 10, 0.693295949, 0.033527711, 0.068022346, 0.0003 ]));
 	this.gammas.push(new LUTGammaLog(
 		'Cineon', [ 0.0000000000, 0.0000000000, 0.1260649940,22.2791018600, 2.6907845340, 0.2595160220, 0.2702335160, 0.0000000000, 0 ]));
 	this.rec709 = this.gammas.length;
-	this.gammas.push(new LUTGammaLin(
+	this.gammas.push(new LUTGammaGam(
 		'Rec709', [ 1/0.45, 4.50000000, 0.09900000, 0.01800000, 0.08100000 ]));
-	this.gammas.push(new LUTGammaLin(
+	this.gammas.push(new LUTGammaGam(
 		'Rec2020 12-bit', [ 1/0.45, 4.50000000, 0.09930000, 0.01810000, 0.08145000 ]));
-	this.gammas.push(new LUTGammaLin(
+	this.gammas.push(new LUTGammaGam(
 		'sRGB', [ 2.40000000,12.92000000, 0.05500000, 0.00313080, 0.04015966 ]));
 	this.gammas.push(new LUTGammaLin(
-		'Linear', [ 1.00000000, 1.00000000, 0.00000000,999.0000000,999.0000000 ]));
+		'Scene Linear IRE', 0.2));
+	this.gammas.push(new LUTGammaLin(
+		'Scene Reflectance', 0.18));
 	this.gammas.push(new LUTGammaLUT(
 		'Rec709 (800%)',
 		{
@@ -343,6 +351,15 @@ LUTGamma.prototype.setParams = function(params) {
 	if (typeof params.outL === 'boolean') {
 		this.outL = params.outL;
 	}
+	if (typeof params.scaleMin === 'number' && typeof params.scaleMax === 'number') {
+		this.sMin = params.scaleMin;
+		this.sMax = params.scaleMax;
+		if (this.sMin !== 0 || this.sMax !== 1) {
+			this.sIn = true;
+		} else {
+			this.sIn = false;
+		}
+	}
 	if (typeof params.clip === 'boolean') {
 		this.clip = params.clip;
 		out.clip = this.clip;
@@ -507,17 +524,26 @@ LUTGamma.prototype.oneDCalc = function(p,t,i) {
 	if (this.clip && cMax>1) {
 		cMax = 1;
 	}
+	var k;
 	if (this.nul) {
 		if (this.inL) {
 			if (this.outL) {
 				for (var j=0; j<max; j++) {
-					o[(j*3)] = Math.min(cMax,Math.max(cMin,(s+j)/d));
+					k = (s+j)/d; // between 0-1.0
+					if (this.sIn) {
+						k = (k*(this.sMax-this.sMin)) + this.sMin;
+					}
+					o[(j*3)] = Math.min(cMax,Math.max(cMin,k));
 					o[(j*3)+1] = o[(j*3)];
 					o[(j*3)+2] = o[(j*3)];
 				}
 			} else {
 				for (var j=0; j<max; j++) {
-					o[(j*3)] = Math.min(cMax,Math.max(cMin,((876*(s+j)/d)+64)/1023));
+					k = (s+j)/d; // between 0-1.0
+					if (this.sIn) {
+						k = (k*(this.sMax-this.sMin)) + this.sMin;
+					}
+					o[(j*3)] = Math.min(cMax,Math.max(cMin,((876*k)+64)/1023));
 					o[(j*3)+1] = o[(j*3)];
 					o[(j*3)+2] = o[(j*3)];
 				}
@@ -525,13 +551,21 @@ LUTGamma.prototype.oneDCalc = function(p,t,i) {
 		} else {
 			if (this.outL) {
 				for (var j=0; j<max; j++) {
-					o[(j*3)] = Math.min(cMax,Math.max(cMin,((1023*(s+j)/d)-64)/876));
+					k = (s+j)/d; // between 0-1.0
+					if (this.sIn) {
+						k = (k*(this.sMax-this.sMin)) + this.sMin;
+					}
+					o[(j*3)] = Math.min(cMax,Math.max(cMin,((1023*k)-64)/876));
 					o[(j*3)+1] = o[(j*3)];
 					o[(j*3)+2] = o[(j*3)];
 				}
 			} else {
 				for (var j=0; j<max; j++) {
-					o[(j*3)] = Math.min(cMax,Math.max(cMin,(s+j)/d));
+					k = (s+j)/d; // between 0-1.0
+					if (this.sIn) {
+						k = (k*(this.sMax-this.sMin)) + this.sMin;
+					}
+					o[(j*3)] = Math.min(cMax,Math.max(cMin,k));
 					o[(j*3)+1] = o[(j*3)];
 					o[(j*3)+2] = o[(j*3)];
 				}
@@ -540,10 +574,14 @@ LUTGamma.prototype.oneDCalc = function(p,t,i) {
 	} else {
 		var l;
 		for (var j=0; j<max; j++) {
+			k = (s+j)/d; // between 0-1.0
+			if (this.sIn) {
+				k = (k*(this.sMax-this.sMin)) + this.sMin;
+			}
 			if (this.inL) {
-				o[(j*3)] = this.gammas[this.curIn].linFromLegal((s+j)/d)*this.eiMult;
+				o[(j*3)] = this.gammas[this.curIn].linFromLegal(k)*this.eiMult;
 			} else {
-				o[(j*3)] = this.gammas[this.curIn].linFromData((s+j)/d)*this.eiMult;
+				o[(j*3)] = this.gammas[this.curIn].linFromData(k)*this.eiMult;
 			}
 			if (this.doASCCDL) {
 				// Green
@@ -685,18 +723,30 @@ LUTGamma.prototype.inCalcRGB = function(p,t,i) {
 				for (var G=0; G<max; G++) {
 					for (var R=0; R<max; R++) {
 						var j = (R+(G*max))*3;
-						o[(j*3)] = R/d;
-						o[(j*3)+1] = G/d;
-						o[(j*3)+2] = B/d;
+						if (this.sIn) {
+							o[(j*3)] = ((R/d)*(this.sMax-this.sMin)) + this.sMin;
+							o[(j*3)+1] = ((G/d)*(this.sMax-this.sMin)) + this.sMin;
+							o[(j*3)+2] = ((B/d)*(this.sMax-this.sMin)) + this.sMin;
+						} else {
+							o[(j*3)] = R/d;
+							o[(j*3)+1] = G/d;
+							o[(j*3)+2] = B/d;
+						}
 					}
 				}
 			} else {
 				for (var G=0; G<max; G++) {
 					for (var R=0; R<max; R++) {
 						var j = (R+(G*max))*3;
-						o[ j ] = ((876*R/d)+64)/1023;
-						o[j+1] = ((876*G/d)+64)/1023;
-						o[j+2] = ((876*B/d)+64)/1023;
+						if (this.sIn) {
+							o[ j ] = ((876*(((R/d)*(this.sMax-this.sMin)) + this.sMin))+64)/1023;
+							o[j+1] = ((876*(((G/d)*(this.sMax-this.sMin)) + this.sMin))+64)/1023;
+							o[j+2] = ((876*(((B/d)*(this.sMax-this.sMin)) + this.sMin))+64)/1023;
+						} else {
+							o[ j ] = ((876*(R/d))+64)/1023;
+							o[j+1] = ((876*(G/d))+64)/1023;
+							o[j+2] = ((876*(B/d))+64)/1023;
+						}
 					}
 				}
 			}
@@ -705,18 +755,30 @@ LUTGamma.prototype.inCalcRGB = function(p,t,i) {
 				for (var G=0; G<max; G++) {
 					for (var R=0; R<max; R++) {
 						var j = (R+(G*max))*3;
-						o[ j ] = ((1023*R/d)-64)/876;
-						o[j+1] = ((1023*G/d)-64)/876;
-						o[j+2] = ((1023*B/d)-64)/876;
+						if (this.sIn) {
+							o[ j ] = ((1023*(((R/d)*(this.sMax-this.sMin)) + this.sMin))-64)/876;
+							o[j+1] = ((1023*(((G/d)*(this.sMax-this.sMin)) + this.sMin))-64)/876;
+							o[j+2] = ((1023*(((B/d)*(this.sMax-this.sMin)) + this.sMin))-64)/876;
+						} else {
+							o[ j ] = ((1023*R/d)-64)/876;
+							o[j+1] = ((1023*G/d)-64)/876;
+							o[j+2] = ((1023*B/d)-64)/876;
+						}
 					}
 				}
 			} else {
 				for (var G=0; G<max; G++) {
 					for (var R=0; R<max; R++) {
 						var j = (R+(G*max))*3;
-						o[ j ] = R/d;
-						o[j+1] = G/d;
-						o[j+2] = B/d;
+						if (this.sIn) {
+							o[ j ] = ((R/d)*(this.sMax-this.sMin)) + this.sMin;
+							o[j+1] = ((G/d)*(this.sMax-this.sMin)) + this.sMin;
+							o[j+2] = ((B/d)*(this.sMax-this.sMin)) + this.sMin;
+						} else {
+							o[ j ] = R/d;
+							o[j+1] = G/d;
+							o[j+2] = B/d;
+						}
 					}
 				}
 			}
@@ -726,18 +788,30 @@ LUTGamma.prototype.inCalcRGB = function(p,t,i) {
 			for (var G=0; G<max; G++) {
 				for (var R=0; R<max; R++) {
 					var j = (R+(G*max))*3;
-					o[ j ] = this.gammas[this.curIn].linFromLegal(R/d);
-					o[j+1] = this.gammas[this.curIn].linFromLegal(G/d);
-					o[j+2] = this.gammas[this.curIn].linFromLegal(B/d);
+					if (this.sIn) {
+						o[ j ] = this.gammas[this.curIn].linFromLegal(((R/d)*(this.sMax-this.sMin)) + this.sMin);
+						o[j+1] = this.gammas[this.curIn].linFromLegal(((G/d)*(this.sMax-this.sMin)) + this.sMin);
+						o[j+2] = this.gammas[this.curIn].linFromLegal(((B/d)*(this.sMax-this.sMin)) + this.sMin);
+					} else {
+						o[ j ] = this.gammas[this.curIn].linFromLegal(R/d);
+						o[j+1] = this.gammas[this.curIn].linFromLegal(G/d);
+						o[j+2] = this.gammas[this.curIn].linFromLegal(B/d);
+					}
 				}
 			}
 		} else {
 			for (var G=0; G<max; G++) {
 				for (var R=0; R<max; R++) {
 					var j = (R+(G*max))*3;
-					o[ j ] = this.gammas[this.curIn].linFromData(R/d);
-					o[j+1] = this.gammas[this.curIn].linFromData(G/d);
-					o[j+2] = this.gammas[this.curIn].linFromData(B/d);
+					if (this.sIn) {
+						o[ j ] = this.gammas[this.curIn].linFromData(((R/d)*(this.sMax-this.sMin)) + this.sMin);
+						o[j+1] = this.gammas[this.curIn].linFromData(((G/d)*(this.sMax-this.sMin)) + this.sMin);
+						o[j+2] = this.gammas[this.curIn].linFromData(((B/d)*(this.sMax-this.sMin)) + this.sMin);
+					} else {
+						o[ j ] = this.gammas[this.curIn].linFromData(R/d);
+						o[j+1] = this.gammas[this.curIn].linFromData(G/d);
+						o[j+2] = this.gammas[this.curIn].linFromData(B/d);
+					}
 				}
 			}
 		}
@@ -1388,17 +1462,17 @@ LUTGammaArri.prototype.linFromData = function(input) {
 LUTGammaArri.prototype.linFromLegal = function(input) {
 	return this.linFromData((input * 0.85630498533724) + 0.06256109481916);
 }
-function LUTGammaLin(name,params) {
+function LUTGammaGam(name,params) {
 	this.name = name;
 	this.params = params;
 	this.gamma = params[0].toFixed(2).toString();
 	this.iso = 800;
 	this.cat = 1;
 }
-LUTGammaLin.prototype.changeISO = function(iso) {
+LUTGammaGam.prototype.changeISO = function(iso) {
 	this.iso = iso;
 }
-LUTGammaLin.prototype.linToD = function(buff) {
+LUTGammaGam.prototype.linToD = function(buff) {
 	var c = new Float64Array(buff);
 	var m = c.length;
 	this.linToL(buff)
@@ -1406,7 +1480,7 @@ LUTGammaLin.prototype.linToD = function(buff) {
 		c[j] = (c[j] * 0.85630498533724) + 0.06256109481916;
 	}
 }
-LUTGammaLin.prototype.linToL = function(buff) {
+LUTGammaGam.prototype.linToL = function(buff) {
 	var c = new Float64Array(buff);
 	var m = c.length;
 	for (var j=0; j<m; j++) {
@@ -1417,7 +1491,7 @@ LUTGammaLin.prototype.linToL = function(buff) {
 		}
 	}
 }
-LUTGammaLin.prototype.linFromD = function(buff) {
+LUTGammaGam.prototype.linFromD = function(buff) {
 	var c = new Float64Array(buff);
 	var m = c.length;
 	for (var j=0; j<m; j++) {
@@ -1425,7 +1499,7 @@ LUTGammaLin.prototype.linFromD = function(buff) {
 	}
 	this.linFromL(buff)
 }
-LUTGammaLin.prototype.linFromL = function(buff) {
+LUTGammaGam.prototype.linFromL = function(buff) {
 	var c= new Float64Array(buff);
 	var m = c.length;
 	for (var j=0; j<m; j++) {
@@ -1436,25 +1510,75 @@ LUTGammaLin.prototype.linFromL = function(buff) {
 		}
 	}
 }
-LUTGammaLin.prototype.linToData = function(input) {
+LUTGammaGam.prototype.linToData = function(input) {
 	return (this.linToLegal(input) * 0.85630498533724) + 0.06256109481916;
 }
-LUTGammaLin.prototype.linToLegal = function(input) {
+LUTGammaGam.prototype.linToLegal = function(input) {
 	if (input >= this.params[3]) {
 		return ((1 + this.params[2]) * Math.pow(input,1 / this.params[0])) - this.params[2];
 	} else {
 		return this.params[1] * input;
 	}
 }
-LUTGammaLin.prototype.linFromData = function(input) {
+LUTGammaGam.prototype.linFromData = function(input) {
 	return this.linFromLegal((input - 0.06256109481916) / 0.85630498533724);
 }
-LUTGammaLin.prototype.linFromLegal = function(input) {
+LUTGammaGam.prototype.linFromLegal = function(input) {
 	if (input >= this.params[4]) {
 		return Math.pow((input + this.params[2])/(1 + this.params[2]),this.params[0]);		
 	} else {
 		return (input / this.params[1]);
 	}
+}
+function LUTGammaLin(name, zero) {
+	this.name = name;
+	this.iso = 800;
+	this.zero = zero / 0.2;
+	this.gamma = 1;
+	this.cat = 1;
+}
+LUTGammaLin.prototype.changeISO = function(iso) {
+	this.iso = iso;
+}
+LUTGammaLin.prototype.linToD = function(buff) {
+	var c = new Float64Array(buff);
+	var m = c.length;
+	for (var j=0; j<m; j++) {
+		c[j] = (c[j] * this.zero * 0.85630498533724) + 0.06256109481916;
+	}
+}
+LUTGammaLin.prototype.linToL = function(buff) {
+	var c = new Float64Array(buff);
+	var m = c.length;
+	for (var j=0; j<m; j++) {
+		c[j] = c[j] * this.zero;
+	}
+}
+LUTGammaLin.prototype.linFromD = function(buff) {
+	var c = new Float64Array(buff);
+	var m = c.length;
+	for (var j=0; j<m; j++) {
+		c[j] = (c[j] - 0.06256109481916) / (0.85630498533724 * this.zero);
+	}
+}
+LUTGammaLin.prototype.linFromL = function(buff) {
+	var c = new Float64Array(buff);
+	var m = c.length;
+	for (var j=0; j<m; j++) {
+		c[j] = c[j] / this.zero;
+	}
+}
+LUTGammaLin.prototype.linToData = function(input) {
+	return (input * this.zero * 0.85630498533724) + 0.06256109481916;
+}
+LUTGammaLin.prototype.linToLegal = function(input) {
+	return input * this.zero;
+}
+LUTGammaLin.prototype.linFromData = function(input) {
+	return (input - 0.06256109481916) / (0.85630498533724 * this.zero);
+}
+LUTGammaLin.prototype.linFromLegal = function(input) {
+	return input / this.zero;
 }
 function LUTGammaPQ(name,params) {
 	this.name = name;
@@ -1765,8 +1889,15 @@ LUTGammaGen.prototype.linToLegal = function(input) {
 function LUTGammaLUT(name,params) {
 	this.name = name;
 	this.lut = new LUTs();
-	this.lut.setInfo(name, params.format, 1, params.size, params.min, params.max);
-	this.lut.addLUT(params.lut.buffer);
+	this.lut.setDetails({
+		title: name,
+		format: params.format,
+		dims: 1,
+		s: params.size,
+		min: params.min,
+		max: params.max,
+		C: [params.lut.buffer]
+	});
 	this.iso = 800;
 	this.cat = 2;
 }
@@ -1810,7 +1941,27 @@ function LUTGammaLA(name) {
 }
 LUTGammaLA.prototype.setLUT = function(lut) {
 	this.lut = new LUTs();
-	this.lut.setDetails(lut);
+	this.lut.setDetails({
+		title: lut.title,
+		format: lut.format,
+		dims: lut.dims,
+		s: lut.s,
+		min: [lut.min[0],lut.min[1],lut.min[2]],
+		max: [lut.max[0],lut.max[1],lut.max[2]],
+		rgbl: lut.rgbl,
+		C: lut.C
+	});
+	this.rev = new LUTs();
+	this.rev.setDetails({
+		title: lut.title,
+		format: lut.format,
+		dims: lut.dims,
+		s: lut.s,
+		min: [lut.min[0],lut.min[1],lut.min[2]],
+		max: [lut.max[0],lut.max[1],lut.max[2]],
+		rgbl: lut.rgbl,
+		C: lut.R
+	});
 }
 LUTGammaLA.prototype.setTitle = function(name) {
 	this.name = name;
@@ -1838,6 +1989,26 @@ LUTGammaLA.prototype.linToL = function(buff) {
 		c[j] = (c[j] - 0.06256109481916) / 0.85630498533724;
 	}
 }
+LUTGammaLA.prototype.linFromD = function(buff) {
+	var c = new Float64Array(buff);
+	var m = c.length;
+	for (var j=0; j<m; j++) {
+		c[j] = this.rev.lLCub(c[j]);
+		if (c[j] >= 0.1673609920) {
+			c[j] = (Math.pow(10,(c[j] - 0.4105571850)/0.2556207230) - 0.0526315790)/4.7368421060;		
+		} else {
+			c[j] = (0.1677922920*c[j]) + -0.0155818840;
+		}
+	}
+}
+LUTGammaLA.prototype.linFromL = function(buff) {
+	var c = new Float64Array(buff);
+	var m = c.length;
+	for (var j=0; j<m; j++) {
+		c[j] = (input * 0.85630498533724) + 0.06256109481916;
+	}
+	this.linFromD(buff);
+}
 LUTGammaLA.prototype.linToData = function(input) {
 	if (input >= 0.0125) {
 		return this.lut.lLCub((0.2556207230 * Math.log((input * 4.7368421060) + 0.0526315790)/Math.LN10) + 0.4105571850);
@@ -1847,6 +2018,17 @@ LUTGammaLA.prototype.linToData = function(input) {
 }
 LUTGammaLA.prototype.linToLegal = function(input) {
 	return (this.linToData(input) - 0.06256109481916) / 0.85630498533724;
+}
+LUTGammaLA.prototype.linFromData = function(input) {
+ 	input = this.rev.lLCub(input);
+	if (input >= 0.1673609920) {
+		return (Math.pow(10,(input - 0.4105571850)/0.2556207230) - 0.0526315790)/4.7368421060;		
+	} else {
+		return (0.1677922920*input) + -0.0155818840;
+	}
+}
+LUTGammaLA.prototype.linFromLegal = function(input) {
+	return this.linFromData((input * 0.85630498533724) + 0.06256109481916);
 }
 function LUTGammaNull(name) {
 	this.name = name;

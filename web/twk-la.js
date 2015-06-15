@@ -16,6 +16,7 @@ function TWKLA(tweaksBox, inputs, messages, files, formats) {
 	this.files = files;
 	this.formats = formats;
 	this.validExts = this.formats.validExts();
+	this.isTxt = this.formats.isTxt();
 	this.p = 10;
 	this.messages.addUI(this.p,this);
 	this.io();
@@ -31,8 +32,8 @@ TWKLA.prototype.io = function() {
 	// Tweak - Specific Inputs
 	this.inLUT = new LUTs();
 	this.inputs.addInput('laInLUT',this.inLUT);
-	this.inputs.addInput('laGammaLUT',{text:[]});
-	this.inputs.addInput('laGamutLUT',{text:[]});
+//	this.inputs.addInput('laGammaLUT',{text:[]});
+//	this.inputs.addInput('laGamutLUT',{text:[]});
 
 	this.analysed = document.createElement('input');
 	this.analysed.setAttribute('type','hidden');
@@ -161,7 +162,7 @@ TWKLA.prototype.ui = function() {
 	this.analysisBox.appendChild(this.dim65);
 	this.analysisBox.appendChild(document.createElement('label').appendChild(document.createTextNode('65x65x65')));
 	this.analysisBox.appendChild(document.createElement('br'));
-	this.analysisBox.appendChild(document.createElement('label').appendChild(document.createTextNode('LUT Scaling  ')));
+	this.analysisBox.appendChild(document.createElement('label').appendChild(document.createTextNode('LUT Range  ')));
 	this.analysisBox.appendChild(this.dlOpt);
 	this.analysisBox.appendChild(document.createElement('label').appendChild(document.createTextNode('D→L')));
 	this.analysisBox.appendChild(this.ddOpt);
@@ -185,6 +186,14 @@ TWKLA.prototype.toggleTweaks = function() {
 }
 TWKLA.prototype.toggleTweak = function() {
 	if (this.tweakCheck.checked) {
+		if (parseInt(this.inputs.inGamma.options[this.inputs.inGamma.options.length - 1].value) !== this.inputs.gammaLA) {
+			var laOption = document.createElement('option');
+				laOption.value = this.inputs.gammaLA;
+				laOption.innerHTML = 'LA - ' + this.title.value;
+			this.inputs.inGamma.appendChild(laOption);
+		} else {
+			this.inputs.inGamma.options[this.inputs.inGamma.options.length - 1].innerHTML = 'LA - ' + this.title.value;
+		}
 		if (parseInt(this.inputs.outGamma.options[this.inputs.outGamma.options.length - 1].value) !== this.inputs.gammaLA) {
 			var laOption = document.createElement('option');
 				laOption.value = this.inputs.gammaLA;
@@ -210,17 +219,29 @@ TWKLA.prototype.toggleTweak = function() {
 			this.inputs.twkHGSelect.options[this.inputs.twkHGSelect.options.length - 1].innerHTML = 'LA - ' + this.title.value;
 		}
 	} else {
+		if (parseInt(this.inputs.inGamma.options[this.inputs.inGamma.options.selectedIndex].value) === this.inputs.gammaLA) {
+			this.inputs.inGamma.options[0].selected = true;
+		}
+		if (parseInt(this.inputs.inGamma.options[this.inputs.inGamma.options.length - 1].value) === this.inputs.gammaLA) {
+			this.inputs.inGamma.remove(this.inputs.inGamma.options.length - 1);
+		}
+		if (parseInt(this.inputs.outGamma.options[this.inputs.outGamma.options.selectedIndex].value) === this.inputs.gammaLA) {
+			this.inputs.outGamma.options[0].selected = true;
+		}
 		if (parseInt(this.inputs.outGamma.options[this.inputs.outGamma.options.length - 1].value) === this.inputs.gammaLA) {
 			this.inputs.outGamma.remove(this.inputs.outGamma.options.length - 1);
-			this.inputs.outGamma.options[0].selected = true;
+		}
+		if (parseInt(this.inputs.outGamut.options[this.inputs.outGamut.options.selectedIndex].value) === this.inputs.gamutLA) {
+			this.inputs.outGamut.options[0].selected = true;
 		}
 		if (parseInt(this.inputs.outGamut.options[this.inputs.outGamut.options.length - 1].value) === this.inputs.gamutLA) {
 			this.inputs.outGamut.remove(this.inputs.outGamut.options.length - 1);
-			this.inputs.outGamut.options[0].selected = true;
+		}
+		if (parseInt(this.inputs.twkHGSelect.options[this.inputs.twkHGSelect.options.selectedIndex].value) === this.inputs.gamutLA) {
+			this.inputs.twkHGSelect.options[0].selected = true;
 		}
 		if (parseInt(this.inputs.twkHGSelect.options[this.inputs.twkHGSelect.options.length - 1].value) !== this.inputs.gamutLA) {
 			this.inputs.twkHGSelect.remove(this.inputs.twkHGSelect.options.length - 1);
-			this.inputs.twkHGSelect.options[0].selected = true;
 		}
 	}
 }
@@ -297,13 +318,16 @@ TWKLA.prototype.createRadioElement = function(name, checked) {
 }
 TWKLA.prototype.getFile = function() {
 	var validExts = [];
+	var isTxt = [];
 	if (this.newOpt.checked) {
 		validExts = this.validExts.slice(0);
+		isTxt = this.isTxt.slice(0);
 	} else {
 		validExts = ['lacube','labin'];
+		isTxt = [true, false];
 	}
 	if (this.inputs.isApp || this.fileInput.value !== '') {
-		this.files.loadLUTFromInput(this.fileInput, validExts, 'laFileData', this, 0);
+		this.files.loadLUTFromInput(this.fileInput, validExts, isTxt, 'laFileData', this, 0);
 	}
 }
 TWKLA.prototype.followUp = function(input) {
@@ -320,7 +344,12 @@ TWKLA.prototype.gotFile = function() {
 	if (this.newOpt.checked) {
 		this.analysisBox.className = 'twk-tab';
 		this.inputs.lutAnalyst.reset();
-		var parsed = this.formats.parse(this.inputs.laFileData.format,this.inputs.laFileData.title, this.inputs.laFileData.text, this.inputs.lutAnalyst.inLUT);
+		var parsed = false;
+		if (this.inputs.laFileData.isTxt) {
+			parsed = this.formats.parse(this.inputs.laFileData.format,this.inputs.laFileData.title, this.inputs.laFileData.text, this.inputs.lutAnalyst.inLUT);
+		} else {
+			var parsed2 = this.formats.parse(this.inputs.laFileData.format,this.inputs.laFileData.title, this.inputs.laFileData.buff, this.inputs.lutAnalyst.inLUT);
+		}
 		if (parsed) {
 			this.title.value = this.inputs.lutAnalyst.getTitle('in');
 			this.doButton.className = 'twk-button';
@@ -439,6 +468,9 @@ TWKLA.prototype.store = function(cube) {
 }
 TWKLA.prototype.cleanTitle = function() {
 	this.title.value = this.title.value.replace(/[/"/']/gi, '');
+	if (parseInt(this.inputs.inGamma.options[this.inputs.inGamma.options.length - 1].value) === this.inputs.gammaLA) {
+		this.inputs.inGamma.options[this.inputs.inGamma.options.length - 1].innerHTML = 'LA - ' + this.title.value;
+	}
 	if (parseInt(this.inputs.outGamma.options[this.inputs.outGamma.options.length - 1].value) === this.inputs.gammaLA) {
 		this.inputs.outGamma.options[this.inputs.outGamma.options.length - 1].innerHTML = 'LA - ' + this.title.value;
 	}

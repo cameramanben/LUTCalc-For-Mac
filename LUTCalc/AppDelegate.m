@@ -141,7 +141,7 @@
         {
             NSURL*  fileURL = [panel URL];
             NSError* error;
-            BOOL savedOK = [lutContent writeToURL:fileURL
+            BOOL savedOK = [[self byteArrayToFile:lutContent] writeToURL:fileURL
                                           atomically:NO];
             if (! savedOK) {
                 NSLog(@"File saving failed - %@",[error localizedFailureReason]);
@@ -271,6 +271,11 @@
     for (j=0; j<len; j++) {
         [output addObject:@(byteData[j])];
     }
+    return output;
+}
+-(NSData *) byteArrayToFile: (NSArray *) arrayData; {
+    NSUInteger len = [arrayData count];
+    NSMutableData *output = [[NSMutableData alloc] initWithLength: len];
     return output;
 }
 - (void) logOSXWithText:(NSString *) logMessage; {

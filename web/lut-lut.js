@@ -33,7 +33,7 @@ lutLUT.prototype.header = function() {
 	var out = '# Created with LUTCalc ' + info.version + ' by Ben Turley ' + info.date + "\n";
 	out += '# "' + info.name + '"' + "\n";
 	if (info.nul) {
-		out += '# Null LUT';
+		out += '# Null LUT' + "\n";
 	} else {
 		out += '# ';
 		if (info.mlut) {
@@ -81,7 +81,7 @@ lutLUT.prototype.parse = function(title, text, lut) {
 		if ((!isNaN(parseFloat(j)) && isFinite(j)) || j === '-') {
 			break;
 		} else if (lower.search('lut:') >= 0) {
-			var data = line.substr(parseInt(lower.search('lut')) + 4).trim().split(/\s+/g);
+			var data = line.substr(parseInt(lower.search('lut:')) + 4).trim().split(/\s+/g);
 			channels = parseInt(data[0]);
 			size = parseInt(data[1]);
 		}
