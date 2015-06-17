@@ -327,10 +327,16 @@ LUTPreview.prototype.toggleDefault = function() {
 		case 1:
 			this.changed = true;
 			this.preOpt = 2;
-			this.drButton.value = 'High Contrast';
+			this.drButton.value = 'Grayscale';
 			this.loadDefault(2);
 			break;
 		case 2:
+			this.changed = true;
+			this.preOpt = 3;
+			this.drButton.value = 'High Contrast';
+			this.loadDefault(3);
+			break;	
+		case 3:
 			this.changed = true;
 			this.preOpt = 0;
 			this.drButton.value = 'Low Contrast';
@@ -413,6 +419,10 @@ LUTPreview.prototype.loadDefault = function(opt) {
 		case 2:
 			msb.src = "CWMSB.png";
 			lsb.src = "CWLSB.png";
+			break;
+		case 3:
+			msb.src = "GrayMSB.png";
+			lsb.src = "GrayLSB.png";
 			break;
 	}
 }
