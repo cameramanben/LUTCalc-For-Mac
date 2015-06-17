@@ -240,22 +240,63 @@
             NSURL* fileURL = [[panel URLs]objectAtIndex:0];
             NSString* fileExt = [fileURL pathExtension];
             NSError* error;
-            NSData* fileData = [[NSData alloc] initWithContentsOfURL:fileURL];
-            
-            if (fileData == nil) {
+            NSImage * sourceImage = [[NSImage alloc] initWithData:[NSData dataWithContentsOfURL:fileURL]];
+            if (sourceImage == nil) {
                 NSUserNotification *userNotification = [[NSUserNotification alloc] init];
                 userNotification.title = [fileURL lastPathComponent];
                 userNotification.subtitle = @"Failed to load";
                 [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
                 NSLog(@"File opening failed - %@",[error localizedFailureReason]);
             } else {
+                NSBitmapImageRep * imageRep = [[NSBitmapImageRep alloc]
+                                               initWithBitmapDataPlanes:NULL
+                                               pixelsWide:960
+                                               pixelsHigh:540
+                                               bitsPerSample:16
+                                               samplesPerPixel:4
+                                               hasAlpha:YES
+                                               isPlanar: NO
+                                               colorSpaceName:NSCalibratedRGBColorSpace
+                                               bytesPerRow: 960 * 4 * 2
+                                               bitsPerPixel: 4 * 16
+                                               ];
+                imageRep = [imageRep bitmapImageRepByRetaggingWithColorSpace:[NSColorSpace sRGBColorSpace]];
+                NSGraphicsContext *ctx = [NSGraphicsContext graphicsContextWithBitmapImageRep: imageRep];
+                [NSGraphicsContext saveGraphicsState];
+                [NSGraphicsContext setCurrentContext: ctx];
+                float aspect = [sourceImage size].width / [sourceImage size].height;
+                float w = 960;
+                float h = 540;
+                if (aspect < 16/9){
+                    w = 540 * aspect;
+                } else {
+                    h = 960 / aspect;
+                }
+                float x = (960 - w)/2;
+                float y = (540 - h)/2;
+                NSRect imageRect = NSMakeRect(x, y, w, h);
+                [sourceImage drawInRect:imageRect
+                                fromRect: NSZeroRect
+                               operation: NSCompositeCopy
+                                fraction: 1.0];
+                [ctx flushGraphics];
+                [NSGraphicsContext restoreGraphicsState];
+                NSUInteger max = 960 * 540;
+                NSMutableArray *imageArray = [[NSMutableArray alloc] init];
+                struct Pixel { uint16_t r,g,b,a; };
+                struct Pixel *pixels = (struct Pixel *) [imageRep bitmapData];
+                for (int j=0; j<max; j++) {
+                    [imageArray addObject:@(pixels[j].r)];
+                    [imageArray addObject:@(pixels[j].g)];
+                    [imageArray addObject:@(pixels[j].b)];
+                }
                 NSArray *args = [NSArray arrayWithObjects:
-                                    fileExt,
-                                    [self fileToByteArray:fileData],
-                                    destination,
-                                    [NSString stringWithFormat: @"%ld", (long)parentIdx],
-                                    [NSString stringWithFormat: @"%ld", (long)nextIdx],
-                                    nil];
+                                 fileExt,
+                                 imageArray,
+                                 destination,
+                                 [NSString stringWithFormat: @"%ld", (long)parentIdx],
+                                 [NSString stringWithFormat: @"%ld", (long)nextIdx],
+                                 nil];
                 id appWindowScript = [[self webView] windowScriptObject];
                 [appWindowScript  callWebScriptMethod:@"loadImgFromApp" withArguments:args ];
             }

@@ -688,30 +688,39 @@ LUTPreview.prototype.drawParade = function() {
 	this.rgbCtx.stroke();
 }
 LUTPreview.prototype.preGetImg = function() {
-	var validExts = ['jpg','png','bmp'];
+    var validExts;
+    if (this.inputs.isApp) {
+        var validExts = ['jpg','jpeg','png','bmp','tiff','tif'];
+    } else {
+        var validExts = ['jpg','jpeg','png','bmp'];
+    }
 	if (this.inputs.isApp || this.fileInput.value !== '') {
 		this.file.loadImgFromInput(this.fileInput, validExts, 'preFileData', this, 0);
 	}
 }
 LUTPreview.prototype.preGotImg = function() {
-    var w = this.inputs.preFileData.w;
-	var h = this.inputs.preFileData.h;
-	var wS = 960;
-	var hS = h * wS / w;
-	var fCan = document.createElement('canvas');
-	fCan.width = '960';
-	fCan.height = '540';
-	var fCtx = fCan.getContext('2d');
-	fCtx.drawImage(this.inputs.preFileData.pic,0,0,wS,hS);
-	var f = fCtx.getImageData(0,0,960,540);
-	var max = Math.round(f.data.length/4);
-	this.preIn = new Float64Array(max*3);
-	var r,g,b;
-	var k=0;
-	for (var j=0; j<max; j++) {
-		this.preIn[(j*3)+0] = parseFloat(f.data[(j*4)+0])/255;
-		this.preIn[(j*3)+1] = parseFloat(f.data[(j*4)+1])/255;
-		this.preIn[(j*3)+2] = parseFloat(f.data[(j*4)+2])/255;
+	if (this.inputs.isApp) {
+		this.preIn = this.inputs.preFileData.imageData;
+	} else {
+	    var w = this.inputs.preFileData.w;
+		var h = this.inputs.preFileData.h;
+		var wS = 960;
+		var hS = h * wS / w;
+		var fCan = document.createElement('canvas');
+		fCan.width = '960';
+		fCan.height = '540';
+		var fCtx = fCan.getContext('2d');
+		fCtx.drawImage(this.inputs.preFileData.pic,0,0,wS,hS);
+		var f = fCtx.getImageData(0,0,960,540);
+		var max = Math.round(f.data.length/4);
+		this.preIn = new Float64Array(max*3);
+		var r,g,b;
+		var k=0;
+		for (var j=0; j<max; j++) {
+			this.preIn[(j*3)+0] = parseFloat(f.data[(j*4)+0])/255;
+			this.preIn[(j*3)+1] = parseFloat(f.data[(j*4)+1])/255;
+			this.preIn[(j*3)+2] = parseFloat(f.data[(j*4)+2])/255;
+		}
 	}
 	this.preSelects();
 }
