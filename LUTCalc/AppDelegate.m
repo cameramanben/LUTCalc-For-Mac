@@ -292,6 +292,7 @@
                 }
                 NSArray *args = [NSArray arrayWithObjects:
                                  fileExt,
+                                 [[fileURL lastPathComponent] stringByDeletingPathExtension],
                                  imageArray,
                                  destination,
                                  [NSString stringWithFormat: @"%ld", (long)parentIdx],
