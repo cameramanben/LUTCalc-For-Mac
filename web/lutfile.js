@@ -227,8 +227,8 @@ function loadLUTFromApp(fileName, format, content, destination, parentIdx, next)
 		lutInputs[destination].isTxt = true;
 	}
 	switch (parseInt(parentIdx)) {
-        case 5: lutGenerate.followUp(parseInt(next));
-            break;
+		case 5: lutGenerate.followUp(parseInt(next));
+				break;
 		case 10: lutTweaksBox.followUp(parseInt(parentIdx),parseInt(next));
 				break;
 	}

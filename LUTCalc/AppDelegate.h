@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate> 
 
 + (BOOL)isSelectorExcludedFromWebScript:(SEL)selector;
 + (BOOL)isKeyExcludedFromWebScript:(const char *)property;
