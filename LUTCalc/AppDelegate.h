@@ -9,7 +9,10 @@
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate> 
+@interface AppDelegate : NSObject <NSApplicationDelegate>
+
+@property (assign) IBOutlet NSWindow *window;
+@property (nonatomic, retain) IBOutlet WebView *webView;
 
 + (BOOL)isSelectorExcludedFromWebScript:(SEL)selector;
 + (BOOL)isKeyExcludedFromWebScript:(const char *)property;

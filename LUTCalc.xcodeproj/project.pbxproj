@@ -13,6 +13,7 @@
 		B5A51F1F19DFEB8000517D5E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A51F1E19DFEB8000517D5E /* AppDelegate.m */; };
 		B5A51F2119DFEB8000517D5E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5A51F2019DFEB8000517D5E /* Images.xcassets */; };
 		B5A51F2419DFEB8000517D5E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5A51F2219DFEB8000517D5E /* MainMenu.xib */; };
+		B5C4B0601BDEDE4E00640CF1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C4B05F1BDEDE4E00640CF1 /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,10 +23,11 @@
 		B5A51F1A19DFEB8000517D5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5A51F1B19DFEB8000517D5E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B5A51F1D19DFEB8000517D5E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		B5A51F1E19DFEB8000517D5E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		B5A51F1E19DFEB8000517D5E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; usesTabs = 0; };
 		B5A51F2019DFEB8000517D5E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B5A51F2319DFEB8000517D5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		B5A51F3919DFEBD600517D5E /* LUTCalc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = LUTCalc.entitlements; sourceTree = "<group>"; };
+		B5C4B05F1BDEDE4E00640CF1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5C4B0601BDEDE4E00640CF1 /* Cocoa.framework in Frameworks */,
 				B573D5BF19E05FDF0015BBBC /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -43,6 +46,7 @@
 		B5A51F0D19DFEB8000517D5E = {
 			isa = PBXGroup;
 			children = (
+				B5C4B05F1BDEDE4E00640CF1 /* Cocoa.framework */,
 				B573D5EE19E0A8940015BBBC /* web */,
 				B573D5BE19E05FDF0015BBBC /* WebKit.framework */,
 				B5A51F1819DFEB8000517D5E /* LUTCalc */,

@@ -8,20 +8,16 @@
 
 #import "AppDelegate.h"
 
-@interface AppDelegate () <NSFileManagerDelegate>
-
-@property (weak) IBOutlet NSWindow *window;
-@property (weak) IBOutlet WebView *webView;
-
-@end
-
 @implementation AppDelegate
+
+@synthesize window;
+@synthesize webView;
 
 - (void) awakeFromNib {
     [NSApp setDelegate: self];
-    [[self webView] setUIDelegate: self];
-    [[self webView] setResourceLoadDelegate: self];
-    [[self webView] setFrameLoadDelegate:self];
+//    [[self webView] setUIDelegate: self];
+//    [[self webView] setResourceLoadDelegate: self];
+//    [[self webView] setFrameLoadDelegate:self];
     NSURL *url = [[NSBundle mainBundle] URLForResource:@"web/index" withExtension:@"html"];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [[[self webView] mainFrame] loadRequest:urlRequest];
