@@ -3035,52 +3035,54 @@ function sendMessage(d) {
 		postMessage(d);
 	}
 }
-importScripts('lut.js');
-var gammas = new LUTGamma();
-var trans = false;
-addEventListener('message', function(e) {
-	var d = e.data;
-	if (typeof d.t === 'undefined') {
-	} else if (d.t !== 0 && d.t < 20 && d.v !== gammas.ver) {
-		postMessage({p: d.p, t: d.t, v: d.v, resend: true, d: d.d});
-	} else {
-		switch (d.t) {
-			case 0:	sendMessage(gammas.setParams(d.d));
-					break;
-			case 1: sendMessage(gammas.oneDCalc(d.p,d.t,d.d)); // Calculate 1D (gamma only) conversion from input to output
-					break;
-			case 2: sendMessage(gammas.laCalcRGB(d.p,d.t,d.d));
-					break;
-			case 3: sendMessage(gammas.inCalcRGB(d.p,d.t,d.d)); 
-					break;
-			case 4: sendMessage(gammas.outCalcRGB(d.p,d.t,d.d)); 
-					break;
-			case 5: sendMessage(gammas.getLists(d.p,d.t)); 
-					break;
-			case 6: sendMessage(gammas.setLA(d.p,d.t,d.d)); 
-					break;
-			case 7: sendMessage(gammas.setLATitle(d.p,d.t,d.d)); 
-					break;
-			case 8: sendMessage(gammas.SL3Val(d.p,d.t,d.d)); 
-					break;
-			case 9: sendMessage(gammas.laCalcInput(d.p,d.t,d.d)); 
-					break;
-			case 10:sendMessage(gammas.ioNames(d.p,d.t));
-					break;
-			case 11:sendMessage(gammas.chartVals(d.p,d.t));
-					break;
-			case 12:sendMessage(gammas.preview(d.p,d.t,d.d));
-					break;
-			case 14:sendMessage(gammas.previewLin(d.p,d.t,d.d));
-					break;
-			case 15:sendMessage(gammas.getPrimaries(d.p,d.t,d.d));
-					break;
-			case 16:sendMessage(gammas.psstColours(d.p,d.t,d.d));
-					break;
-			case 17:sendMessage(gammas.multiColours(d.p,d.t,d.d));
-					break;
-			case 18:sendMessage(gammas.chartRGB(d.p,d.t,d.d));
-					break;
+if (typeof importScripts === 'function') {
+	importScripts('lut.js');
+	var gammas = new LUTGamma();
+	var trans = false;
+	addEventListener('message', function(e) {
+		var d = e.data;
+		if (typeof d.t === 'undefined') {
+		} else if (d.t !== 0 && d.t < 20 && d.v !== gammas.ver) {
+			postMessage({p: d.p, t: d.t, v: d.v, resend: true, d: d.d});
+		} else {
+			switch (d.t) {
+				case 0:	sendMessage(gammas.setParams(d.d));
+						break;
+				case 1: sendMessage(gammas.oneDCalc(d.p,d.t,d.d)); // Calculate 1D (gamma only) conversion from input to output
+						break;
+				case 2: sendMessage(gammas.laCalcRGB(d.p,d.t,d.d));
+						break;
+				case 3: sendMessage(gammas.inCalcRGB(d.p,d.t,d.d)); 
+						break;
+				case 4: sendMessage(gammas.outCalcRGB(d.p,d.t,d.d)); 
+						break;
+				case 5: sendMessage(gammas.getLists(d.p,d.t)); 
+						break;
+				case 6: sendMessage(gammas.setLA(d.p,d.t,d.d)); 
+						break;
+				case 7: sendMessage(gammas.setLATitle(d.p,d.t,d.d)); 
+						break;
+				case 8: sendMessage(gammas.SL3Val(d.p,d.t,d.d)); 
+						break;
+				case 9: sendMessage(gammas.laCalcInput(d.p,d.t,d.d)); 
+						break;
+				case 10:sendMessage(gammas.ioNames(d.p,d.t));
+						break;
+				case 11:sendMessage(gammas.chartVals(d.p,d.t));
+						break;
+				case 12:sendMessage(gammas.preview(d.p,d.t,d.d));
+						break;
+				case 14:sendMessage(gammas.previewLin(d.p,d.t,d.d));
+						break;
+				case 15:sendMessage(gammas.getPrimaries(d.p,d.t,d.d));
+						break;
+				case 16:sendMessage(gammas.psstColours(d.p,d.t,d.d));
+						break;
+				case 17:sendMessage(gammas.multiColours(d.p,d.t,d.d));
+						break;
+				case 18:sendMessage(gammas.chartRGB(d.p,d.t,d.d));
+						break;
+			}
 		}
-	}
-}, false);
+	}, false);
+}

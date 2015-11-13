@@ -311,14 +311,14 @@ LUTColourSpace.prototype.loadColourSpaces = function() {
 	this.csOutSub.push([this.subIdx('Adobe')]);
 	this.csOut.push(this.fromSys('Adobe Wide Gamut RGB'));
 	this.csOutSub.push([this.subIdx('Adobe'),this.subIdx('Wide Gamut')]);
-	this.LA = this.csOut.length;
-	this.csOut.push(this.fromSysLA('LA', this.illuminant('d65')));
-	this.csOutSub.push([0,1,2,3,4,5,6,7,8,9,10,11,12]);
 	this.custOut = this.csOut.length;
 	this.csOut.push(this.toSys('Custom Out'));
 	this.csOutSub.push([0,1,2,3,4,5,6,7,8,9,10,11,12]);
 	this.pass = this.csOut.length;
 	this.csOut.push(this.fromSysMatrix('Passthrough', new Float64Array([1,0,0, 0,1,0, 0,0,1]), this.system.white.buffer.slice(0)));
+	this.csOutSub.push([0,1,2,3,4,5,6,7,8,9,10,11,12]);
+	this.LA = this.csOut.length;
+	this.csOut.push(this.fromSysLA('LA', this.illuminant('d65')));
 	this.csOutSub.push([0,1,2,3,4,5,6,7,8,9,10,11,12]);
 
 	var max = this.csIn.length;
@@ -3214,52 +3214,54 @@ function sendMessage(d) {
 		postMessage(d);
 	}
 }
-importScripts('lut.js','ring.js','brent.js');
-var cs = new LUTColourSpace();
-var trans = false;
-this.addEventListener('message', function(e) {
-	var d = e.data;
-	if (typeof d.t === 'undefined') {
-	} else if (d.t !== 0 && d.t < 20 && d.v !== cs.ver) {
-		this.postMessage({p: d.p, t: d.t, v: d.v, resend: true, d: d.d});
-	} else {
-		switch (d.t) {
-			case 0:	sendMessage(cs.setParams(d.d));
-					break;
-			case 1: sendMessage(cs.calc(d.p,d.t,d.d,true)); 
-					break;
-			case 2: sendMessage(cs.laCalc(d.p,d.t,d.d)); 
-					break;
-			case 3: sendMessage(cs.recalcMatrix(d.p,d.t,d.d)); 
-					break;
-			case 5: sendMessage(cs.getLists(d.p,d.t)); 
-					break;
-			case 6: sendMessage(cs.setLA(d.p,d.t,d.d)); 
-					break;
-			case 7: sendMessage(cs.setLATitle(d.p,d.t,d.d)); 
-					break;
-			case 8: sendMessage(cs.getColSqr(d.p,d.t,d.d)); 
-					break;
-			case 9: sendMessage(cs.multiColours(d.p,d.t,d.d)); 
-					break;
-			case 10:sendMessage(cs.ioNames(d.p,d.t));
-					break;
-			case 11:sendMessage(cs.chartVals(d.p,d.t,d.d));
-					break;
-			case 12:sendMessage(cs.calc(d.p,d.t,d.d,false)); 
-					break;
-			case 14:sendMessage(cs.previewLin(d.p,d.t,d.d));
-					break;
-			case 15:sendMessage(cs.getPrimaries(d.p,d.t));
-					break;
-			case 16:sendMessage(cs.psstColours(d.p,d.t));
-					break;
-			case 17:sendMessage(cs.getCATs(d.p,d.t));
-					break;
-			case 18:sendMessage(cs.getCCTDuv(d.p,d.t,d.d));
-					break;
-			case 19:sendMessage(cs.calcPrimaries(d.p,d.t));
-					break;
+if (typeof importScripts === 'function') {
+	importScripts('lut.js','ring.js','brent.js');
+	var cs = new LUTColourSpace();
+	var trans = false;
+	this.addEventListener('message', function(e) {
+		var d = e.data;
+		if (typeof d.t === 'undefined') {
+		} else if (d.t !== 0 && d.t < 20 && d.v !== cs.ver) {
+			this.postMessage({p: d.p, t: d.t, v: d.v, resend: true, d: d.d});
+		} else {
+			switch (d.t) {
+				case 0:	sendMessage(cs.setParams(d.d));
+						break;
+				case 1: sendMessage(cs.calc(d.p,d.t,d.d,true)); 
+						break;
+				case 2: sendMessage(cs.laCalc(d.p,d.t,d.d)); 
+						break;
+				case 3: sendMessage(cs.recalcMatrix(d.p,d.t,d.d)); 
+						break;
+				case 5: sendMessage(cs.getLists(d.p,d.t)); 
+						break;
+				case 6: sendMessage(cs.setLA(d.p,d.t,d.d)); 
+						break;
+				case 7: sendMessage(cs.setLATitle(d.p,d.t,d.d)); 
+						break;
+				case 8: sendMessage(cs.getColSqr(d.p,d.t,d.d)); 
+						break;
+				case 9: sendMessage(cs.multiColours(d.p,d.t,d.d)); 
+						break;
+				case 10:sendMessage(cs.ioNames(d.p,d.t));
+						break;
+				case 11:sendMessage(cs.chartVals(d.p,d.t,d.d));
+						break;
+				case 12:sendMessage(cs.calc(d.p,d.t,d.d,false)); 
+						break;
+				case 14:sendMessage(cs.previewLin(d.p,d.t,d.d));
+						break;
+				case 15:sendMessage(cs.getPrimaries(d.p,d.t));
+						break;
+				case 16:sendMessage(cs.psstColours(d.p,d.t));
+						break;
+				case 17:sendMessage(cs.getCATs(d.p,d.t));
+						break;
+				case 18:sendMessage(cs.getCCTDuv(d.p,d.t,d.d));
+						break;
+				case 19:sendMessage(cs.calcPrimaries(d.p,d.t));
+						break;
+			}
 		}
-	}
-}.bind(this), false);
+	}.bind(this), false);
+}

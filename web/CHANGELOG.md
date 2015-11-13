@@ -1,6 +1,12 @@
 LUTCalc Changelog
 =================
 
+v2.3.1
+------
+* New Feature - Generic camera option where the user selects the recorded gamma and gamut.
+* Bugfix - Gamma and gamut options properly hidden or revealed in OSX App.
+* Bugfix - LUTAnalyst gamuts could become hidden when the format changed.
+
 v2.3
 ----
 * New Feature - Gammas and Gamuts available sorted by manufacturer, type (log, display, HDR Display, etc) or as the previous flat list.
@@ -12,7 +18,8 @@ v2.3
 * New Feature - Further Dolby PQ options listed by display nits for a 90% reference white.
 * New Feature - Good Broyden's used to estimate gamut primary triangles for LUTAnalyst-read LUTs.
 * Bugfix - Binary file saving now works in the OSX App.
-* Bugfix - Re-analysed the Panasonic V-709 LUTs for both gamma and gamut. Lack of availability of a Varicam 35 lead to uncertainty over the correct ranges to choose. Pending confirmation both interpretations of the gamma are given, though the .vlt preset assumes the new assumption of range.
+* Bugfix - Fixed different binary saving bug in Chrome App.
+* Bugfix - Re-analysed the Panasonic V-709 LUTs for both gamma and gamut. Lack of availability of a Varicam 35 has lead to uncertainty over the correct ranges to choose. Pending confirmation both interpretations of the gamma are given, though the .vlt preset assumes the new assumption of range.
 * Bugfix - Fix incomplete input scaling bugfix from v2.2, which meant that scaling was only applied if both lower and upper bounds were changed.
 
 v2.2.2
