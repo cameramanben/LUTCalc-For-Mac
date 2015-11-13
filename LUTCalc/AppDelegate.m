@@ -15,9 +15,6 @@
 
 - (void) awakeFromNib {
     [NSApp setDelegate: self];
-//    [[self webView] setUIDelegate: self];
-//    [[self webView] setResourceLoadDelegate: self];
-//    [[self webView] setFrameLoadDelegate:self];
     NSURL *url = [[NSBundle mainBundle] URLForResource:@"web/index" withExtension:@"html"];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [[[self webView] mainFrame] loadRequest:urlRequest];
@@ -48,7 +45,7 @@
 // Set which methods can interact with Javascript and how
 
 + (BOOL)isSelectorExcludedFromWebScript:(SEL)selector {
-    NSLog(@"%@ received %@ for '%@'", self, NSStringFromSelector(_cmd), NSStringFromSelector(selector));
+//    NSLog(@"%@ received %@ for '%@'", self, NSStringFromSelector(_cmd), NSStringFromSelector(selector));
     if (selector == @selector(saveLUTToFile:withFileName:withFileExtension:)) {
         return NO;
     } else if (selector == @selector(saveBINToFile:withFileName:withFileExtension:)) {
@@ -66,15 +63,29 @@
 }
 
 + (BOOL)isKeyExcludedFromWebScript:(const char *)property {
-    NSLog(@"%@ received %@ for '%s'", self, NSStringFromSelector(_cmd), property);
-//    if (strcmp(property, "loadLUTFromApp") == 0) {
-//        return NO;
-//    }
+/*
+ NSLog(@"%@ received %@ for '%s'", self, NSStringFromSelector(_cmd), property);
+ if (strcmp(property, "saveLUT") == 0) {
+        return NO;
+    } else if (strcmp(property, "saveBIN") == 0) {
+        return NO;
+    } else if (strcmp(property, "loadLUT") == 0) {
+        return NO;
+    } else if (strcmp(property, "loadImg") == 0) {
+        return NO;
+    } else if (strcmp(property, "logOSX") == 0) {
+        return NO;
+    } else if (strcmp(property, "appOS") == 0) {
+        return NO;
+    } else {
+        return YES;
+    }
+*/
     return YES;
 }
 
 + (NSString *) webScriptNameForSelector:(SEL)sel {
-    NSLog(@"%@ received %@ with sel='%@'", self, NSStringFromSelector(_cmd), NSStringFromSelector(sel));
+//    NSLog(@"%@ received %@ with sel='%@'", self, NSStringFromSelector(_cmd), NSStringFromSelector(sel));
     if (sel == @selector(saveLUTToFile:withFileName:withFileExtension:)) {
         return @"saveLUT";
     } else if (sel == @selector(saveBINToFile:withFileName:withFileExtension:)) {
@@ -125,7 +136,7 @@
     }];
     return succeeded;
 }
-- (BOOL) saveBINToFile:(NSArray *)lutContent withFileName:(NSString *)fileName withFileExtension:(NSString*) fileExtension; {
+- (BOOL) saveBINToFile:(id)lutContent withFileName:(NSString *)fileName withFileExtension:(NSString*) fileExtension; {
     __block BOOL succeeded = NO;
     NSString* newName = [[fileName stringByDeletingPathExtension]
                          stringByAppendingPathExtension:fileExtension];
@@ -137,6 +148,7 @@
         {
             NSURL*  fileURL = [panel URL];
             NSError* error;
+            NSLog(@"%@",lutContent);
             BOOL savedOK = [[self byteArrayToFile:lutContent] writeToURL:fileURL
                                           atomically:NO];
             if (! savedOK) {
@@ -311,9 +323,20 @@
     }
     return output;
 }
--(NSData *) byteArrayToFile: (NSArray *) arrayData; {
-    NSUInteger len = [arrayData count];
-    NSMutableData *output = [[NSMutableData alloc] initWithLength: len];
+- (NSData *) byteArrayToFile: (id) arrayData; {
+    id length = [arrayData valueForKey:@"length"];
+    unsigned m = [length isKindOfClass:[NSNumber class]] ? [length unsignedIntValue] : 0;
+    NSMutableData *output = [[NSMutableData alloc] initWithCapacity:m];
+    unsigned j;
+    unsigned char zero = 0;
+    for (j = 0; j < m; ++j) {
+        unsigned char element = [[arrayData webScriptValueAtIndex:j] unsignedCharValue];
+        if (element) {
+            [output appendBytes:&element length:sizeof(element)];
+        } else {
+            [output appendBytes:&zero length:sizeof(zero)];
+        }
+    }
     return output;
 }
 - (void) logOSXWithText:(NSString *) logMessage; {
