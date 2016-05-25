@@ -19,6 +19,7 @@
 + (NSString *) webScriptNameForSelector:(SEL)sel;
 
 - (NSString *) appOS;
+- (void) printCharts;
 - (BOOL) saveLUTToFile:(NSString*) lutContent
           withFileName:(NSString*) fileName
      withFileExtension:(NSString*) fileExtension;

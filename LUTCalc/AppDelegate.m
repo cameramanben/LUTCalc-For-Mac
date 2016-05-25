@@ -32,6 +32,7 @@
     [win setValue:self forKey:@"loadLUT"];
     [win setValue:self forKey:@"loadImg"];
     [win setValue:self forKey:@"logOSX"];
+    [win setValue:self forKey:@"printCharts"];
 }
 
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification{
@@ -57,6 +58,8 @@
     } else if (selector == @selector(logOSXWithText:)) {
         return NO;
     } else if (selector == @selector(appOS)) {
+        return NO;
+    } else if (selector == @selector(printCharts)) {
         return NO;
     }
     return YES;
@@ -98,6 +101,8 @@
         return @"logOSX";
     } else if (sel == @selector(appOS)) {
         return @"appOS";
+    } else if (sel == @selector(printCharts)) {
+        return @"printCharts";
     } else {
         return nil;
     }
@@ -106,6 +111,14 @@
 // Methods that interact with the Javascript
 - (NSString *) appOS {
     return @"osx";
+}
+- (void) printCharts {
+    NSPrintInfo *printInfo = [NSPrintInfo sharedPrintInfo];
+    NSPrintOperation *printOperation = [webView.mainFrame.frameView
+                                        printOperationWithPrintInfo:printInfo];
+    
+    // Open the print dialog
+    [printOperation runOperation];
 }
 - (BOOL) saveLUTToFile:(NSString *)lutContent withFileName:(NSString *)fileName withFileExtension:(NSString*) fileExtension; {
     __block BOOL succeeded = NO;
