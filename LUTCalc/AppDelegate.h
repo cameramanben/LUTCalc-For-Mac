@@ -22,10 +22,14 @@
 - (void) printCharts;
 - (BOOL) saveLUTToFile:(NSString*) lutContent
           withFileName:(NSString*) fileName
-     withFileExtension:(NSString*) fileExtension;
+     withFileExtension:(NSString*) fileExtension
+       usingFullDialog:(NSInteger) doDialog
+      withSourceObject:(NSInteger) source;
 - (BOOL) saveBINToFile:(NSArray*) lutContent
           withFileName:(NSString*) fileName
-     withFileExtension:(NSString*) fileExtension;
+     withFileExtension:(NSString*) fileExtension
+       usingFullDialog:(NSInteger) doDialog
+      withSourceObject:(NSInteger) source;
 - (void) loadLUTWithExtensions:(NSString*) fileExtensions
                  toDestination:(NSString*)destination
                     fromObject:(NSInteger) parenIdx

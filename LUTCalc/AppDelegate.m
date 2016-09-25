@@ -47,9 +47,9 @@
 
 + (BOOL)isSelectorExcludedFromWebScript:(SEL)selector {
 //    NSLog(@"%@ received %@ for '%@'", self, NSStringFromSelector(_cmd), NSStringFromSelector(selector));
-    if (selector == @selector(saveLUTToFile:withFileName:withFileExtension:)) {
+    if (selector == @selector(saveLUTToFile:withFileName:withFileExtension:usingFullDialog:withSourceObject:)) {
         return NO;
-    } else if (selector == @selector(saveBINToFile:withFileName:withFileExtension:)) {
+    } else if (selector == @selector(saveBINToFile:withFileName:withFileExtension:usingFullDialog:withSourceObject:)) {
         return NO;
     } else if (selector == @selector(loadLUTWithExtensions:toDestination:fromObject:goingTo:)) {
         return NO;
@@ -89,9 +89,9 @@
 
 + (NSString *) webScriptNameForSelector:(SEL)sel {
 //    NSLog(@"%@ received %@ with sel='%@'", self, NSStringFromSelector(_cmd), NSStringFromSelector(sel));
-    if (sel == @selector(saveLUTToFile:withFileName:withFileExtension:)) {
+    if (sel == @selector(saveLUTToFile:withFileName:withFileExtension:usingFullDialog:withSourceObject:)) {
         return @"saveLUT";
-    } else if (sel == @selector(saveBINToFile:withFileName:withFileExtension:)) {
+    } else if (sel == @selector(saveBINToFile:withFileName:withFileExtension:usingFullDialog:withSourceObject:)) {
         return @"saveBIN";
     } else if (sel == @selector(loadLUTWithExtensions:toDestination:fromObject:goingTo:)) {
         return @"loadLUT";
@@ -120,36 +120,132 @@
     // Open the print dialog
     [printOperation runOperation];
 }
-- (BOOL) saveLUTToFile:(NSString *)lutContent withFileName:(NSString *)fileName withFileExtension:(NSString*) fileExtension; {
+- (BOOL) saveLUTToFile:(NSString *)lutContent withFileName:(NSString *)fileName withFileExtension:(NSString*) fileExtension usingFullDialog: (NSInteger) doDialog withSourceObject:(NSInteger) source; {
     __block BOOL succeeded = NO;
     NSString* newName = [[fileName stringByDeletingPathExtension]
                          stringByAppendingPathExtension:fileExtension];
-    // Set the default name for the file and show the panel.
-    NSSavePanel* panel = [NSSavePanel savePanel];
-    [panel setNameFieldStringValue:newName];
-    [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
-        if (result == NSFileHandlingPanelOKButton)
-        {
-            NSURL*  fileURL = [panel URL];
-            NSError* error;
-            BOOL savedOK = [lutContent writeToURL:fileURL
-                                     atomically:YES
-                                       encoding:NSUTF8StringEncoding
-                                            error:&error];
-            if (! savedOK) {
-                NSLog(@"File saving failed - %@",[error localizedFailureReason]);
-            } else {
-                NSUserNotification *userNotification = [[NSUserNotification alloc] init];
-                userNotification.title = [NSString stringWithFormat: @"%@ Cube LUT", fileName];
-                userNotification.subtitle = @"Saved Successfully";
-                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
-                succeeded = YES;
-            }
+    if (doDialog == 0) { // no dialog - save the remaining files in the set to a directory selected by the user
+        NSURL *fileURL =[[NSUserDefaults standardUserDefaults] URLForKey:@"lutDirectory"];
+        NSError* error;
+        BOOL savedOK = [lutContent writeToURL:[fileURL URLByAppendingPathComponent:newName]
+                                   atomically:YES
+                                     encoding:NSUTF8StringEncoding
+                                        error:&error];
+        if (! savedOK) {
+            NSArray *args = [NSArray arrayWithObjects:
+                             [NSString stringWithFormat: @"%ld", (long)source],
+                             @"0",
+                             nil];
+            id appWindowScript = [[self webView] windowScriptObject];
+            [appWindowScript  callWebScriptMethod:@"savedFromApp" withArguments:args ];
+            NSLog(@"File saving failed - %@",[error localizedFailureReason]);
+        } else {
+            NSUserNotification *userNotification = [[NSUserNotification alloc] init];
+            userNotification.title = [NSString stringWithFormat: @"%@ Cube LUT", fileName];
+            userNotification.subtitle = @"Saved Successfully";
+            [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
+            NSArray *args = [NSArray arrayWithObjects:
+                             [NSString stringWithFormat: @"%ld", (long)source],
+                             @"1",
+                             nil];
+            id appWindowScript = [[self webView] windowScriptObject];
+            [appWindowScript  callWebScriptMethod:@"savedFromApp" withArguments:args ];
+            succeeded = YES;
         }
-    }];
+    } else if (doDialog == 2) { // openpanel - select a directory into which the set of exposure LUTs is to be placed
+        NSOpenPanel* panel = [NSOpenPanel openPanel];
+        [panel setCanChooseDirectories:YES];
+        [panel setCanCreateDirectories:YES];
+        [panel setCanChooseFiles:NO];
+        [panel setPrompt:@"Select"];
+        [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
+            if (result == NSFileHandlingPanelOKButton)
+            {
+                NSURL *fileURL = [panel URL];
+               [[NSUserDefaults standardUserDefaults] setURL:fileURL forKey:@"lutDirectory"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                NSError* error;
+                BOOL savedOK = [lutContent writeToURL:[fileURL URLByAppendingPathComponent:newName]
+                                           atomically:YES
+                                             encoding:NSUTF8StringEncoding
+                                                error:&error];
+                if (! savedOK) {
+                    NSArray *args = [NSArray arrayWithObjects:
+                                     [NSString stringWithFormat: @"%ld", (long)source],
+                                     @"0",
+                                     nil];
+                    id appWindowScript = [[self webView] windowScriptObject];
+                    [appWindowScript  callWebScriptMethod:@"savedFromApp" withArguments:args ];
+                    NSLog(@"File saving failed - %@",[error localizedFailureReason]);
+                } else {
+                    NSUserNotification *userNotification = [[NSUserNotification alloc] init];
+                    userNotification.title = [NSString stringWithFormat: @"%@ Cube LUT", fileName];
+                    userNotification.subtitle = @"Saved Successfully";
+                    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
+                    NSArray *args = [NSArray arrayWithObjects:
+                                     [NSString stringWithFormat: @"%ld", (long)source],
+                                     @"1",
+                                     nil];
+                    id appWindowScript = [[self webView] windowScriptObject];
+                    [appWindowScript  callWebScriptMethod:@"savedFromApp" withArguments:args ];
+                    succeeded = YES;
+                }
+            } else {
+                NSArray *args = [NSArray arrayWithObjects:
+                                 [NSString stringWithFormat: @"%ld", (long)source],
+                                 @"0",
+                                 nil];
+                id appWindowScript = [[self webView] windowScriptObject];
+                [appWindowScript  callWebScriptMethod:@"savedFromApp" withArguments:args ];
+            }
+         }];
+    } else { // savepanel - conventional selection of filename and destination for single LUT files / settings files etc.
+        // Set the default name for the file and show the panel.
+        NSSavePanel* panel = [NSSavePanel savePanel];
+        [panel setNameFieldStringValue:newName];
+        [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
+            if (result == NSFileHandlingPanelOKButton)
+            {
+                NSURL*  fileURL = [panel URL];
+               NSError* error;
+                BOOL savedOK = [lutContent writeToURL:fileURL
+                                           atomically:YES
+                                            encoding:NSUTF8StringEncoding
+                                                error:&error];
+                if (! savedOK) {
+                    NSArray *args = [NSArray arrayWithObjects:
+                                     [NSString stringWithFormat: @"%ld", (long)source],
+                                    @"0",
+                                     nil];
+                    id appWindowScript = [[self webView] windowScriptObject];
+                    [appWindowScript  callWebScriptMethod:@"savedFromApp" withArguments:args ];
+                    NSLog(@"File saving failed - %@",[error localizedFailureReason]);
+                } else {
+                    NSUserNotification *userNotification = [[NSUserNotification alloc] init];
+                    userNotification.title = [NSString stringWithFormat: @"%@ Cube LUT", fileName];
+                    userNotification.subtitle = @"Saved Successfully";
+                    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
+                    NSArray *args = [NSArray arrayWithObjects:
+                                     [NSString stringWithFormat: @"%ld", (long)source],
+                                     @"1",
+                                     nil];
+                    id appWindowScript = [[self webView] windowScriptObject];
+                    [appWindowScript  callWebScriptMethod:@"savedFromApp" withArguments:args ];
+                    succeeded = YES;
+                }
+            } else {
+                NSArray *args = [NSArray arrayWithObjects:
+                                 [NSString stringWithFormat: @"%ld", (long)source],
+                                 @"0",
+                                 nil];
+                id appWindowScript = [[self webView] windowScriptObject];
+                [appWindowScript  callWebScriptMethod:@"savedFromApp" withArguments:args ];
+            }
+        }];
+    }
     return succeeded;
 }
-- (BOOL) saveBINToFile:(id)lutContent withFileName:(NSString *)fileName withFileExtension:(NSString*) fileExtension; {
+- (BOOL) saveBINToFile:(id)lutContent withFileName:(NSString *)fileName withFileExtension:(NSString*) fileExtension usingFullDialog: (NSInteger) doDialog withSourceObject:(NSInteger) source; {
     __block BOOL succeeded = NO;
     NSString* newName = [[fileName stringByDeletingPathExtension]
                          stringByAppendingPathExtension:fileExtension];
@@ -166,12 +262,24 @@
                                           atomically:NO];
             if (! savedOK) {
                 NSLog(@"File saving failed - %@",[error localizedFailureReason]);
-            } else {
+                NSArray *args = [NSArray arrayWithObjects:
+                                 [NSString stringWithFormat: @"%ld", (long)source],
+                                 @"0",
+                                 nil];
+                id appWindowScript = [[self webView] windowScriptObject];
+                [appWindowScript  callWebScriptMethod:@"savedFromApp" withArguments:args ];
+           } else {
                 NSUserNotification *userNotification = [[NSUserNotification alloc] init];
                 userNotification.title = [NSString stringWithFormat: @"%@ Cube LUT", fileName];
                 userNotification.subtitle = @"Saved Successfully";
                 [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
-                succeeded = YES;
+                NSArray *args = [NSArray arrayWithObjects:
+                                 [NSString stringWithFormat: @"%ld", (long)source],
+                                 @"1",
+                                 nil];
+                id appWindowScript = [[self webView] windowScriptObject];
+                [appWindowScript  callWebScriptMethod:@"savedFromApp" withArguments:args ];
+               succeeded = YES;
             }
         }
     }];

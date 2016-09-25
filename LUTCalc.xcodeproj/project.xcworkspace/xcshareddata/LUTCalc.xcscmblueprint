@@ -5,16 +5,12 @@
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "661EE051397496F5983038437957D695B0E29BBA" : 0,
-    "52C8850E502B2C55A1218AB6966137B5AA8B0AEA" : 0,
     "19078E0FD734ABD636190B4806D0B92FDBFB0DCD" : 0,
-    "2FCEFADADA8C55D7F8A69D94EC4E02E3924E41AC" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "0F475F52-6B52-4981-8CEE-750D291A6290",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "661EE051397496F5983038437957D695B0E29BBA" : "LUTCalc",
-    "52C8850E502B2C55A1218AB6966137B5AA8B0AEA" : "LUTCalc\/web\/FileSaver",
+    "661EE051397496F5983038437957D695B0E29BBA" : "LUTCalc\/",
     "19078E0FD734ABD636190B4806D0B92FDBFB0DCD" : "LUTCalcweb",
-    "2FCEFADADA8C55D7F8A69D94EC4E02E3924E41AC" : "LUTCalc\/web\/Blob"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "LUTCalc",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -24,16 +20,6 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cameramanben\/LUTCalc.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "19078E0FD734ABD636190B4806D0B92FDBFB0DCD"
-    },
-    {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/eligrey\/Blob.js.git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2FCEFADADA8C55D7F8A69D94EC4E02E3924E41AC"
-    },
-    {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/eligrey\/FileSaver.js.git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "52C8850E502B2C55A1218AB6966137B5AA8B0AEA"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cameramanben\/LUTCalc-For-Mac.git",
