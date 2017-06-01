@@ -965,8 +965,12 @@ LUTFormats.prototype.parse = function(ext, title, data, lutMaker, lutDest) {
 	var max = this.types.length;
 	for (var j=0; j<max; j++) {
 		if (this.exts[j] === ext) {
-			return this.formats[j].parse(title, data, lutMaker, lutDest);
+ 			return this.formats[j].parse(title, data, lutMaker, lutDest);
 		}
 	}
 	return false;
 };
+// Loading progress bar
+if (typeof splash !== 'undefined') {
+	splashProg();
+}
