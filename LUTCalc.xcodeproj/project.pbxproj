@@ -110,7 +110,7 @@
 		B5A51F0E19DFEB8000517D5E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Ben Turley";
 				TargetAttributes = {
 					B5A51F1519DFEB8000517D5E = {
@@ -288,6 +288,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 7TD9LTNT23;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = LUTCalc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
@@ -308,6 +309,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 7TD9LTNT23;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = LUTCalc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
