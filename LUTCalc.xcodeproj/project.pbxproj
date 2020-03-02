@@ -1,0 +1,345 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B573D5BF19E05FDF0015BBBC /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B573D5BE19E05FDF0015BBBC /* WebKit.framework */; };
+		B573D5EF19E0A8940015BBBC /* web in Resources */ = {isa = PBXBuildFile; fileRef = B573D5EE19E0A8940015BBBC /* web */; };
+		B5A51F1C19DFEB8000517D5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A51F1B19DFEB8000517D5E /* main.m */; };
+		B5A51F1F19DFEB8000517D5E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A51F1E19DFEB8000517D5E /* AppDelegate.m */; };
+		B5A51F2119DFEB8000517D5E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5A51F2019DFEB8000517D5E /* Images.xcassets */; };
+		B5A51F2419DFEB8000517D5E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5A51F2219DFEB8000517D5E /* MainMenu.xib */; };
+		B5C4B0601BDEDE4E00640CF1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C4B05F1BDEDE4E00640CF1 /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B573D5BE19E05FDF0015BBBC /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		B573D5EE19E0A8940015BBBC /* web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = web; sourceTree = "<group>"; };
+		B5A51F1619DFEB8000517D5E /* LUTCalc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LUTCalc.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5A51F1A19DFEB8000517D5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B5A51F1B19DFEB8000517D5E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B5A51F1D19DFEB8000517D5E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		B5A51F1E19DFEB8000517D5E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; usesTabs = 0; };
+		B5A51F2019DFEB8000517D5E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		B5A51F2319DFEB8000517D5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		B5A51F3919DFEBD600517D5E /* LUTCalc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = LUTCalc.entitlements; sourceTree = "<group>"; };
+		B5C4B05F1BDEDE4E00640CF1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B5A51F1319DFEB8000517D5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5C4B0601BDEDE4E00640CF1 /* Cocoa.framework in Frameworks */,
+				B573D5BF19E05FDF0015BBBC /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B5A51F0D19DFEB8000517D5E = {
+			isa = PBXGroup;
+			children = (
+				B5C4B05F1BDEDE4E00640CF1 /* Cocoa.framework */,
+				B573D5EE19E0A8940015BBBC /* web */,
+				B573D5BE19E05FDF0015BBBC /* WebKit.framework */,
+				B5A51F1819DFEB8000517D5E /* LUTCalc */,
+				B5A51F1719DFEB8000517D5E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B5A51F1719DFEB8000517D5E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B5A51F1619DFEB8000517D5E /* LUTCalc.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B5A51F1819DFEB8000517D5E /* LUTCalc */ = {
+			isa = PBXGroup;
+			children = (
+				B5A51F3919DFEBD600517D5E /* LUTCalc.entitlements */,
+				B5A51F1D19DFEB8000517D5E /* AppDelegate.h */,
+				B5A51F1E19DFEB8000517D5E /* AppDelegate.m */,
+				B5A51F2019DFEB8000517D5E /* Images.xcassets */,
+				B5A51F2219DFEB8000517D5E /* MainMenu.xib */,
+				B5A51F1919DFEB8000517D5E /* Supporting Files */,
+			);
+			path = LUTCalc;
+			sourceTree = "<group>";
+		};
+		B5A51F1919DFEB8000517D5E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B5A51F1A19DFEB8000517D5E /* Info.plist */,
+				B5A51F1B19DFEB8000517D5E /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B5A51F1519DFEB8000517D5E /* LUTCalc */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B5A51F3319DFEB8000517D5E /* Build configuration list for PBXNativeTarget "LUTCalc" */;
+			buildPhases = (
+				B5A51F1219DFEB8000517D5E /* Sources */,
+				B5A51F1319DFEB8000517D5E /* Frameworks */,
+				B5A51F1419DFEB8000517D5E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LUTCalc;
+			productName = LUTCalc;
+			productReference = B5A51F1619DFEB8000517D5E /* LUTCalc.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B5A51F0E19DFEB8000517D5E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "Ben Turley";
+				TargetAttributes = {
+					B5A51F1519DFEB8000517D5E = {
+						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = 7TD9LTNT23;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = B5A51F1119DFEB8000517D5E /* Build configuration list for PBXProject "LUTCalc" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B5A51F0D19DFEB8000517D5E;
+			productRefGroup = B5A51F1719DFEB8000517D5E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B5A51F1519DFEB8000517D5E /* LUTCalc */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B5A51F1419DFEB8000517D5E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B573D5EF19E0A8940015BBBC /* web in Resources */,
+				B5A51F2119DFEB8000517D5E /* Images.xcassets in Resources */,
+				B5A51F2419DFEB8000517D5E /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B5A51F1219DFEB8000517D5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5A51F1F19DFEB8000517D5E /* AppDelegate.m in Sources */,
+				B5A51F1C19DFEB8000517D5E /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		B5A51F2219DFEB8000517D5E /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B5A51F2319DFEB8000517D5E /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B5A51F3119DFEB8000517D5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		B5A51F3219DFEB8000517D5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		B5A51F3419DFEB8000517D5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LUTCalc/LUTCalc.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 7TD9LTNT23;
+				INFOPLIST_FILE = LUTCalc/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.lutcalc.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		B5A51F3519DFEB8000517D5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LUTCalc/LUTCalc.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 7TD9LTNT23;
+				INFOPLIST_FILE = LUTCalc/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.lutcalc.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B5A51F1119DFEB8000517D5E /* Build configuration list for PBXProject "LUTCalc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5A51F3119DFEB8000517D5E /* Debug */,
+				B5A51F3219DFEB8000517D5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B5A51F3319DFEB8000517D5E /* Build configuration list for PBXNativeTarget "LUTCalc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5A51F3419DFEB8000517D5E /* Debug */,
+				B5A51F3519DFEB8000517D5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B5A51F0E19DFEB8000517D5E /* Project object */;
+}

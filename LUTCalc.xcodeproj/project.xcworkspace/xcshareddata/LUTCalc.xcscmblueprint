@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "661EE051397496F5983038437957D695B0E29BBA",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "661EE051397496F5983038437957D695B0E29BBA" : 0,
+    "19078E0FD734ABD636190B4806D0B92FDBFB0DCD" : 0,
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "0F475F52-6B52-4981-8CEE-750D291A6290",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "661EE051397496F5983038437957D695B0E29BBA" : "LUTCalc\/",
+    "19078E0FD734ABD636190B4806D0B92FDBFB0DCD" : "LUTCalcweb",
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "LUTCalc",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "LUTCalc.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cameramanben\/LUTCalc.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "19078E0FD734ABD636190B4806D0B92FDBFB0DCD"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cameramanben\/LUTCalc-For-Mac.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "661EE051397496F5983038437957D695B0E29BBA"
+    }
+  ]
+}
