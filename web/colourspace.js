@@ -156,8 +156,12 @@ LUTColourSpace.prototype.loadColourSpaces = function() {
 	this.SG3C = this.csIn.length;
 	this.csIn.push(this.toSys('Sony S-Gamut3.cine'));
 	this.csInSub.push([this.subIdx('Sony'),this.subIdx('Wide Gamut')]);
+    this.csIn.push(this.toSys('Sony S-Gamut3.cine (Venice)'));
+    this.csInSub.push([this.subIdx('Sony'),this.subIdx('Wide Gamut')]);
 	this.csIn.push(this.toSys('Sony S-Gamut3'));
 	this.csInSub.push([this.subIdx('Sony'),this.subIdx('Wide Gamut')]);
+    this.csIn.push(this.toSys('Sony S-Gamut3 (Venice)'));
+    this.csInSub.push([this.subIdx('Sony'),this.subIdx('Wide Gamut')]);
 	this.csIn.push(this.toSys('Sony S-Gamut'));
 	this.csInSub.push([this.subIdx('Sony'),this.subIdx('Wide Gamut')]);
 	this.csIn.push(this.toSys('Alexa Wide Gamut'));
@@ -231,8 +235,12 @@ LUTColourSpace.prototype.loadColourSpaces = function() {
 
 	this.csOut.push(this.fromSys('Sony S-Gamut3.cine'));
 	this.csOutSub.push([this.subIdx('Sony'),this.subIdx('Wide Gamut')]);
+    this.csOut.push(this.fromSys('Sony S-Gamut3.cine (Venice)'));
+    this.csOutSub.push([this.subIdx('Sony'),this.subIdx('Wide Gamut')]);
 	this.csOut.push(this.fromSys('Sony S-Gamut3'));
 	this.csOutSub.push([this.subIdx('Sony'),this.subIdx('Wide Gamut')]);
+    this.csOut.push(this.fromSys('Sony S-Gamut3 (Venice)'));
+    this.csOutSub.push([this.subIdx('Sony'),this.subIdx('Wide Gamut')]);
 	this.csOut.push(this.fromSys('Sony S-Gamut'));
 	this.csOutSub.push([this.subIdx('Sony'),this.subIdx('Wide Gamut')]);
 	this.csOut.push(this.fromSys('Alexa Wide Gamut'));
@@ -641,17 +649,17 @@ LUTColourSpace.prototype.rx = function(buff) {
 	}
 // ASC-CDL
 	if (this.doASCCDL) {
-		var s = 1/Math.max(this.asc[9],0.00000001); // avoid division by zero
+		var s = 1 / Math.max(this.asc[9],0.00000001); // avoid division by zero
 		for (var j=0; j<m; j += 3) {
 			Y = ((y[0]*o[j])+(y[1]*o[j+1])+(y[2]*o[j+2])) * (1-s);
 			o[ j ] = (o[ j ]*s) + Y;
 			o[j+1] = (o[j+1]*s) + Y;
 			o[j+2] = (o[j+2]*s) + Y;
-			o[ j ] = ((o[ j ]<0)?o[ j ]:Math.pow(o[ j ],1/this.asc[6]));
-			o[ j ] = (o[ j ] - this.asc[3])/this.asc[0];
+			o[ j ] = ((o[ j ]<0)?o[ j ]:Math.pow(o[ j ],1 / this.asc[6]));
+			o[ j ] = (o[ j ] - this.asc[3]) / this.asc[0];
 			o[ j ] = (isNaN(o[ j ])?0:o[ j ]);
-			o[j+1] = ((o[j+1]<0)?o[j+1]:Math.pow(o[j+1],1/this.asc[7]));
-			o[j+1] = (o[j+1] - this.asc[4])/this.asc[1];
+			o[j+1] = ((o[j+1]<0)?o[j+1]:Math.pow(o[j+1],1 / this.asc[7]));
+			o[j+1] = (o[j+1] - this.asc[4]) / this.asc[1];
 			o[j+1] = (isNaN(o[j+1])?0:o[j+1]);
 			o[j+2] = ((o[j+2]<0)?o[j+2]:Math.pow(o[j+2],1/this.asc[8]));
 			o[j+2] = (o[j+2] - this.asc[5])/this.asc[2];
@@ -745,7 +753,7 @@ LUTColourSpace.prototype.illuminant = function(name) {
 		case 'd65':	return new Float64Array([ 0.31270, 0.32900, 0.35830 ]);
 		case 'd70':	return new Float64Array([ 0.30540, 0.32160, 0.37300 ]);
 		case 'd75':	return new Float64Array([ 0.29902, 0.31485, 0.38613 ]);
-		case 'e':	return new Float64Array([ 1/3    , 1/3	  , 1/3 	]);
+        case 'e':	return new Float64Array([ 1.0 / 3, 1.0 / 3, 1.0 / 3 ]);
 		case 'p3':	return new Float64Array([ 0.31400, 0.35100, 0.33500 ]);
 		case 'f1':	return new Float64Array([ 0.31310, 0.33727, 0.34963 ]);
 		case 'f2':	return new Float64Array([ 0.37208, 0.37529, 0.25263 ]);
@@ -774,6 +782,14 @@ LUTColourSpace.prototype.xyzMatrices = function() {
 	sgamut3cine.white = this.illuminant('d65');
 	sgamut3cine.toXYZ = this.RGBtoXYZ(sgamut3cine.xy,sgamut3cine.white);
 	this.g.push(sgamut3cine);
+// S-Gamut3.cine (Venice)
+    var sgamut3cineVenice = {};
+    sgamut3cineVenice.name = 'Sony S-Gamut3.cine (Venice)';
+    sgamut3cineVenice.cat = this.CATs.modelIdx('CIECAT02');
+    sgamut3cineVenice.xy = new Float64Array([0.775901872,0.274502393,    0.188682903,0.828684937,    0.101337383,-0.089187517]);
+    sgamut3cineVenice.white = this.illuminant('d65');
+    sgamut3cineVenice.toXYZ = this.RGBtoXYZ(sgamut3cineVenice.xy,sgamut3cineVenice.white);
+    this.g.push(sgamut3cineVenice);
 // S-Gamut3
 	var sgamut3 = {};
 	sgamut3.name = 'Sony S-Gamut3';
@@ -782,6 +798,14 @@ LUTColourSpace.prototype.xyzMatrices = function() {
 	sgamut3.white = this.illuminant('d65');
 	sgamut3.toXYZ = this.RGBtoXYZ(sgamut3.xy,sgamut3.white);
 	this.g.push(sgamut3);
+// S-Gamut3 (Venice)
+    var sgamut3Venice = {};
+    sgamut3Venice.name = 'Sony S-Gamut3 (Venice)';
+    sgamut3Venice.cat = this.CATs.modelIdx('CIECAT02');
+    sgamut3Venice.xy = new Float64Array([0.740464264,0.279364375,    0.089241145,0.893809529,    0.110488237,-0.052579333]);
+    sgamut3Venice.white = this.illuminant('d65');
+    sgamut3Venice.toXYZ = this.RGBtoXYZ(sgamut3Venice.xy,sgamut3Venice.white);
+    this.g.push(sgamut3Venice);
 // S-Gamut
 	var sgamut = {};
 	sgamut.name = 'Sony S-Gamut';
