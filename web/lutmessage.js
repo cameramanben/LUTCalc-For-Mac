@@ -54,6 +54,7 @@ function LUTMessage(inputs) {
 	this.gtU = 0; // Counter keeping tabs on how many of the threads are up-to-date
 	this.gtL = 0;
 	this.startGtThreads();
+	this.precision = 8;
 }
 LUTMessage.prototype.addUI = function(code,ui) {
 	this.ui[code] = ui;
@@ -194,9 +195,16 @@ LUTMessage.prototype.gaSetParams = function() {
 			d.bClip = this.inputs.bClip;
 			d.wClip = this.inputs.wClip;
 		}
-		if (typeof this.inputs.scaleMin.value !== 'undefined') {
+		if (typeof this.inputs.scaleCheck !== 'undefined' && this.inputs.scaleCheck && typeof this.inputs.scaleMin.value !== 'undefined') {
 			d.scaleMin = parseFloat(this.inputs.scaleMin.value);
 			d.scaleMax = parseFloat(this.inputs.scaleMax.value);
+			if (d.scaleMin !== 0.0 || d.scaleMax !== 1.0) {
+				d.scaleCheck = true;
+			} else {
+				d.scaleCheck = false;
+			}
+		} else {
+			d.scaleCheck = false;
 		}
 		this.ui[3].getTFParams(d);
 		var max = this.gas.length;
@@ -377,6 +385,7 @@ LUTMessage.prototype.gotGammaLists = function(d) {
 	this.inputs.addInput('gammaBaseGamuts',d.baseGamuts);
 	this.inputs.addInput('gammaSubNames',d.subNames);
 	this.inputs.addInput('gammaDataLevel',d.gammaDat);
+	this.inputs.addInput('gammaExt',d.gammaExt);
 	var subLists = [];
 	var m = d.subNames.length;
 	var allIdx = m-1;
@@ -756,6 +765,7 @@ LUTMessage.prototype.updateGammaOut = function() {
 	if (this.go) {
 		this.ui[11].updateGammaOut();
 		this.ui[17].updateGammaOut();
+		this.ui[3].updateGammaOut();
 	}
 }
 LUTMessage.prototype.changeGamut = function() {
@@ -792,6 +802,7 @@ LUTMessage.prototype.getSettings = function() {
 	this.ui[1].getSettings(data);
 	this.ui[2].getSettings(data);
 	this.ui[3].getSettings(data);
+	this.ui[5].getSettings(data);
 	this.ui[11].getSettings(data);
 	this.ui[4].getSettings(data);
 	return JSON.stringify(data,null,"\t");
@@ -801,6 +812,7 @@ LUTMessage.prototype.setSettings = function() {
 	this.ui[1].setSettings(data);
 	this.ui[2].setSettings(data);
 	this.ui[3].setSettings(data);
+	this.ui[5].setSettings(data);
 	this.ui[11].setSettings(data);
 	this.ui[4].setSettings(data);
 	this.gtSetParams();
@@ -832,6 +844,7 @@ LUTMessage.prototype.loadGamutLUTs = function() {
 	var fileNames = [
 		'LC709',
 		'LC709A',
+		's709',
 		'cpouttungsten',
 		'cpoutdaylight',
 		'Amira709',
@@ -1054,6 +1067,12 @@ LUTMessage.prototype.getSamples = function(gridX,gridY) {
 };
 LUTMessage.prototype.mobileOpt = function(opt) {
 	this.ui[16].desktopCur(opt);
+};
+LUTMessage.prototype.setPrecision = function(precision) {
+	this.precision = precision;
+};
+LUTMessage.prototype.getPrecision = function() {
+	return this.precision;
 };
 // Loading progress bar
 if (typeof splash !== 'undefined') {

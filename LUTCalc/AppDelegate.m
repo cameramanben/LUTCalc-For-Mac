@@ -159,7 +159,7 @@
         [panel setCanChooseFiles:NO];
         [panel setPrompt:@"Select"];
         [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
-            if (result == NSFileHandlingPanelOKButton)
+            if (result == NSModalResponseOK)
             {
                 NSURL *fileURL = [panel URL];
                [[NSUserDefaults standardUserDefaults] setURL:fileURL forKey:@"lutDirectory"];
@@ -204,7 +204,7 @@
         NSSavePanel* panel = [NSSavePanel savePanel];
         [panel setNameFieldStringValue:newName];
         [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
-            if (result == NSFileHandlingPanelOKButton)
+            if (result == NSModalResponseOK)
             {
                 NSURL*  fileURL = [panel URL];
                NSError* error;
@@ -253,7 +253,7 @@
     NSSavePanel* panel = [NSSavePanel savePanel];
     [panel setNameFieldStringValue:newName];
     [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
-        if (result == NSFileHandlingPanelOKButton)
+        if (result == NSModalResponseOK)
         {
             NSURL*  fileURL = [panel URL];
             NSError* error;
@@ -298,7 +298,7 @@
     [panel setAllowsMultipleSelection:NO];
     [panel setAllowedFileTypes:fileExtensions];
     [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
-        if (result == NSFileHandlingPanelOKButton)
+        if (result == NSModalResponseOK)
         {
             NSURL* fileURL = [[panel URLs]objectAtIndex:0];
             NSString* fileName = [[fileURL lastPathComponent] stringByDeletingPathExtension];
@@ -364,7 +364,7 @@
     [panel setAllowsMultipleSelection:NO];
     [panel setAllowedFileTypes:fileExtensions];
     [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
-        if (result == NSFileHandlingPanelOKButton)
+        if (result == NSModalResponseOK)
         {
             NSURL* fileURL = [[panel URLs]objectAtIndex:0];
             NSString* fileExt = [fileURL pathExtension];
@@ -406,7 +406,7 @@
                 NSRect imageRect = NSMakeRect(x, y, w, h);
                 [sourceImage drawInRect:imageRect
                                 fromRect: NSZeroRect
-                               operation: NSCompositeCopy
+                              operation: NSCompositingOperationCopy
                                 fraction: 1.0];
                 [ctx flushGraphics];
                 [NSGraphicsContext restoreGraphicsState];
